@@ -20,7 +20,7 @@ import { datadogRum } from '@datadog/browser-rum';
 import 'antd/dist/antd.css';
 import '@gen3/ui-component/dist/css/base.less';
 import { fetchAndSetCsrfToken } from './configs';
-import { fetchUserAccess, fetchUserAuthMapping } from './actions';
+import { fetchUserAccess, fetchUserAuthMapping, updateSystemUseNotice } from './actions';
 import ProtectedContent from './Login/ProtectedContent';
 import UserProfile, { fetchAccess } from './UserProfile/ReduxUserProfile';
 import theme from './theme';
@@ -42,6 +42,7 @@ import Workspace from './Workspace';
 import ReduxWorkspaceShutdownPopup from './Popup/ReduxWorkspaceShutdownPopup';
 import ReduxWorkspaceShutdownBanner from './Popup/ReduxWorkspaceShutdownBanner';
 import ErrorWorkspacePlaceholder from './Workspace/ErrorWorkspacePlaceholder';
+import { QSJWTStorage } from './Login/QSJWTStorage';
 
 // monitor user's session
 sessionMonitor.start();
@@ -80,6 +81,7 @@ async function init() {
       // resources can be open to anonymous users, so fetch access:
       store.dispatch(fetchUserAccess),
       store.dispatch(fetchUserAuthMapping),
+      store.dispatch(updateSystemUseNotice(null)),
       // eslint-disable-next-line no-console
       fetchAndSetCsrfToken().catch((err) => { console.log('error on csrf load - should still be ok', err); }),
     ],
