@@ -68,7 +68,7 @@ import NotFound from './components/NotFound';
 
 // monitor user's session
 sessionMonitor.start();
-workspaceSessionMonitor.start();
+// workspaceSessionMonitor.start();
 
 // render the app after the store is configured
 async function init() {
@@ -179,19 +179,6 @@ async function init() {
                   />
                   <Route
                     exact
-                    path='/'
-                    component={
-                      (props) => (
-                        <ProtectedContent
-                          public={indexPublic}
-                          component={IndexPage}
-                          {...props}
-                        />
-                      )
-                    }
-                  />
-                  <Route
-                    exact
                     path='/submission'
                     component={
                       (props) => <ProtectedContent component={HomePage} {...props} />
@@ -224,6 +211,13 @@ async function init() {
                     component={
                       (props) => <ProtectedContent component={GraphQLQuery} {...props} />
                     }
+                  />
+                  <Route
+                    exact
+                    path='/'
+                    render={() => (
+                      <Redirect to="/explorer" />
+                    )}
                   />
                   {
                     isEnabled('analysis')
@@ -344,7 +338,13 @@ async function init() {
                     exact
                     path='/workspace'
                     component={
-                      (props) => <ProtectedContent component={Workspace} {...props} />
+                      (props) => (
+                        <ProtectedContent
+                          public={false}
+                          component={Workspace}
+                          {...props}
+                        />
+                      )
                     }
                   />
                   <Route
@@ -409,23 +409,6 @@ async function init() {
                         exact
                         path='/privacy-policy'
                         component={ReduxPrivacyPolicy}
-                      />
-                    )
-                    : null}
-                  {enableResourceBrowser
-                    ? (
-                      <Route
-                        exact
-                        path='/resource-browser'
-                        component={
-                          (props) => (
-                            <ProtectedContent
-                              public={resourceBrowserPublic}
-                              component={ResourceBrowser}
-                              {...props}
-                            />
-                          )
-                        }
                       />
                     )
                     : null}

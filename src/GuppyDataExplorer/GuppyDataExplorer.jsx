@@ -12,6 +12,7 @@ import {
   TableConfigType,
   ButtonConfigType,
   ChartConfigType,
+  ChartTabConfigType,
 } from './configTypeDef';
 import './GuppyDataExplorer.css';
 import isEnabled from '../helpers/featureFlags';
@@ -139,6 +140,7 @@ class GuppyDataExplorer extends React.Component {
           <ExplorerVisualization
             className='guppy-data-explorer__visualization'
             chartConfig={this.props.chartConfig}
+            chartTabConfig={this.props.chartTabConfig}
             tableConfig={this.props.tableConfig}
             buttonConfig={this.props.buttonConfig}
             heatMapConfig={this.props.heatMapConfig}
@@ -162,6 +164,7 @@ GuppyDataExplorer.propTypes = {
   filterConfig: FilterConfigType.isRequired,
   tableConfig: TableConfigType.isRequired,
   chartConfig: ChartConfigType.isRequired,
+  chartTabConfig: ChartTabConfigType.isRequired,
   buttonConfig: ButtonConfigType.isRequired,
   heatMapConfig: PropTypes.object,
   nodeCountTitle: PropTypes.string,
@@ -176,6 +179,7 @@ GuppyDataExplorer.propTypes = {
 
 GuppyDataExplorer.defaultProps = {
   heatMapConfig: {},
+  chartTabConfig: [],
   nodeCountTitle: undefined,
   getAccessButtonLink: undefined,
   hideGetAccessButton: false,
