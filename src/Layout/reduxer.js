@@ -42,7 +42,7 @@ export const ReduxTopBar = (() => {
     onLogoutClick: () => dispatch(logoutAPI()),
   });
 
-  return connect(mapStateToProps, mapDispatchToProps)(TopBar);
+  return withRouter(connect(mapStateToProps, mapDispatchToProps)(TopBar));
 })();
 
 export const ReduxFooter = (() => {
@@ -54,5 +54,5 @@ export const ReduxFooter = (() => {
     hidden: isFooterHidden(state.bar.active),
   });
 
-  return connect(mapStateToProps)(Footer);
+  return withRouter(connect(mapStateToProps)(Footer));
 })();
