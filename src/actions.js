@@ -316,9 +316,9 @@ export const logoutAPI = (displayAuthPopup = false) => (dispatch) => {
           },
         });
       } else if (document.location.pathname.includes('/dev.html')) {
-        window.location.href = `${window.location.origin}/dev.html/login`
+        document.location.replace(`${window.location.origin}/dev.html/login`);
       } else {
-        window.location.href = `${window.location.origin}/login`
+        document.location.replace(`${window.location.origin}/login`);
       }
     });
 };
