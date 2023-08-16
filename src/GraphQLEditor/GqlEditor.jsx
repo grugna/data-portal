@@ -80,22 +80,12 @@ class GqlEditor extends React.Component {
       ? this.state.selectedEndpointIndex
       : defaultValue;
 
+    let modelToggleLabel = 'Dictionary Query';
+    if (index === 1){
+        modelToggleLabel = 'Explorer Query';
+    }
     return (
       <div className='gql-editor' id='graphiql'>
-        <div className='gql-editor__header'>
-          <h2 className='gql-editor__title'>Query graph</h2>
-          {
-            options.length > 1 ? (
-              <div className='gql-editor__button'>
-                <Button
-                  onClick={() => this.selectEndpoint(this.getOtherIndex(index))}
-                  label={`Switch to ${options[this.getOtherIndex(index)].name}`}
-                  buttonType='primary'
-                />
-              </div>
-            ) : null
-          }
-        </div>
         {
           index === 0
             ? (
@@ -118,6 +108,19 @@ class GqlEditor extends React.Component {
               />
             )
         }
+        <div>
+          {
+            options.length > 1 ? (
+              <div className='gql-editor__button'>
+                <Button
+                  onClick={() => this.selectEndpoint(this.getOtherIndex(index))}
+                  label={modelToggleLabel}
+                  buttonType='primary'
+                />
+              </div>
+            ) : null
+          }
+        </div>
       </div>
     );
   }
