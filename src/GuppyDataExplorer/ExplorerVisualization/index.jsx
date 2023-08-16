@@ -130,6 +130,7 @@ class ExplorerVisualization extends React.Component {
       value: this.props.totalCount,
     });
     Object.keys(chartConfig).forEach((field) => {
+      // use `${field}` to handle nested fields, which contain '.'
       if (!aggsData || !aggsData[`${field}`] || !aggsData[`${field}`].histogram) return;
       const { histogram } = aggsData[`${field}`];
       switch (chartConfig[`${field}`].chartType) {
