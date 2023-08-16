@@ -42,7 +42,6 @@ if (!paramGQLSetup) {
 }
 
 gqlSetup = Object.assign(paramGQLSetup, gqlSetup);
-console.error(gqlSetup);
 
 if (process.argv.length > 2 && process.argv[2].match(/^-+h(elp)?$/)) {
   console.log(`
