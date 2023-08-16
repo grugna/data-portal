@@ -1,0 +1,384 @@
+{
+  "requiredCerts": [],
+  "graphql": {
+    "boardCounts": [
+      {
+        "graphql": "_food_count",
+        "name": "Food",
+        "plural": "Foods"
+      },
+      {
+        "graphql": "_ingredient_count",
+        "name": "Ingredient",
+        "plural": "Ingredients"
+      },
+      {
+        "graphql": "_measurement_count",
+        "name": "Nutrient",
+        "plural": "Nutrients"
+      }
+    ],
+    "chartCounts": [
+      {
+        "graphql": "_food_count",
+        "name": "Food"
+      },
+      {
+        "graphql": "_ingredient_count",
+        "name": "Ingredient"
+      },
+      {
+        "graphql": "_measurement_count",
+        "name": "Nutrient"
+      }
+    ],
+    "projectDetails": "boardCounts"
+  },
+  "components": {
+    "appName": "WISEcode Nutritional Data Platform",
+    "homepageAltText": "WISEcode Nutritional Data Platform logo",
+    "homepageHref": "https://science-dev.wisecode.ai/",
+    "index": {
+      "introduction": {
+        "heading": "Welcome to WISEcode for Science",
+        "multiLineTexts": [
+          "WISEcode for Science is a cloud-based, secure platform that enables easy access, analysis, and sharing of food and nutritional data sets. The platform is designed to accelerate food, nutrition, and health research for academic and industry scientists."
+        ]
+      },
+      "buttons": [
+        {
+          "name": "Define Data Field",
+          "icon": "data-field-define",
+          "body": "The Data Dictionary page defines the data. Please study the dictionary before you start browsing.",
+          "link": "/DD",
+          "label": "Learn more"
+        },
+        {
+          "name": "Explore Data",
+          "icon": "data-explore",
+          "body": "The Exploration Page gives you insights and a clear overview under selected factors.",
+          "link": "/explorer",
+          "label": "Explore data"
+        },
+        {
+          "name": "Access Data",
+          "icon": "data-access",
+          "body": "Write your custom GraphQL query to extract the data you need.",
+          "link": "/query",
+          "label": "Query data"
+        }
+      ],
+      "homepageChartNodes": [
+        {
+          "node": "food",
+          "name": "Foods"
+        },
+        {
+          "node": "recipe",
+          "name": "Ingredients"
+        },
+        {
+          "node": "measurement",
+          "name": "Nutrients"
+        }
+      ]
+    },
+    "navigation": {
+      "title": "",
+      "items": [
+        {
+          "icon": "dictionary",
+          "link": "/DD",
+          "name": "Dictionary",
+          "tooltip": ""
+        },
+        {
+          "icon": "exploration",
+          "link": "/explorer",
+          "name": "Explore",
+          "tooltip": ""
+        },
+        {
+          "icon": "query",
+          "link": "/query",
+          "name": "Query",
+          "tooltip": ""
+        },
+        {
+          "icon": "workspace",
+          "link": "#hostname#workspace/",
+          "name": "Analyze",
+          "tooltip": ""
+        },
+        {
+          "icon": "files",
+          "link": "/files",
+          "name": "Files",
+          "tooltip": ""
+        },
+        {
+          "icon": "profile",
+          "link": "/identity",
+          "name": "Profile",
+          "tooltip": ""
+        }
+      ]
+    },
+    "topBar": {
+      "items": [
+        {
+          "icon": "upload",
+          "link": "/submission",
+          "name": "Submit Data"
+        },
+        {
+          "link": "https://gen3.org/resources/user/",
+          "name": "Documentation"
+        }
+      ]
+    },
+    "login": {
+      "title": "WISEcode for Science",
+      "subTitle": "",
+      "text": "",
+      "contact": "If you have any questions about access or the registration process, please contact WISEcode at ",
+      "email": "info@wisecode.ai",
+      "image": "/custom/logo/gitops-logo.png"
+    },
+    "footerLogos": [
+    ]
+  },
+  "featureFlags": {
+    "explorer": true,
+    "analysis": false,
+    "discoveryUseAggMDS": false
+  },
+  "dataExplorerConfig": {
+    "charts_tabs": [
+      "Food",
+      "Ingredient",
+      "Nutrient"
+    ],
+    "charts": {
+      "food_category": {
+        "chartType": "bar",
+        "title": "Food Category",
+        "tab": "Food"
+      },
+      "brand": {
+        "chartType": "bar",
+        "title": "Brand",
+        "tab": "Food"
+      },
+      "ingredients.category": {
+        "chartType": "bar",
+        "title": "Ingredient Category",
+        "tab": "Ingredient"
+      },
+      "ingredients.name": {
+        "chartType": "bar",
+        "title": "Ingredient",
+        "tab": "Ingredient"
+      },
+      "measurement_tot.nutrient_category": {
+        "chartType": "bar",
+        "title": "Nutrient Category",
+        "tab": "Nutrient"
+      }
+    },
+    "filters": {
+      "tabs": [
+        {
+          "title": "Data",
+          "fields":[
+            "source",
+            "data_source"
+          ]
+        },
+        {
+          "title": "Food",
+          "fields":[
+            "food_type",
+            "food_category",
+            "brand",
+            "brand_owner",
+            "price",
+            "allergen_category"
+          ]
+        },
+        {
+          "title": "Ingredient",
+          "fields":[
+            "ingredients.name",
+            "ingredients.category",
+            "ingredients.sweetener",
+            "ingredients.allergen_category"
+          ]
+        },
+        {
+          "title": "Nutrient",
+          "fields":[
+            "measurement_tot.panel",
+            "measurement_tot.nutrient_category",
+            "measurement_tot.nutrient_name"
+          ]
+        },
+        {
+          "title": "Score",
+          "fields":[
+            "scores.nutes",
+            "scores.en_nute_40_score",
+            "scores.immunity_score",
+            "scores.physical_energy_score",
+            "scores.strength_recovery_score",
+            "scores.mental_acuity_score",
+            "scores.survival_score",
+            "scores.eaa9_protein_score",
+            "scores.eaa3_protein_score"
+          ]
+        }
+      ]
+    },
+    "table": {
+      "enabled": true,
+      "fields": [
+          "name",
+          "food_link",
+          "source",
+          "ingredient_list",
+          "ingredients.name",
+          "ingredient_measurements_panel_unique",
+          "fdc_id",
+          "brand",
+          "brand_owner",
+          "allergen_category",
+          "ingredients.fdc_id"
+        ],
+      "linkFields": [ "food_link" ]
+    },
+    "dropdowns": {},
+    "buttons": [
+      {
+        "enabled": true,
+        "type": "data",
+        "title": "Download Data",
+        "leftIcon": "user",
+        "rightIcon": "download",
+        "fileName": "data.json"
+      },
+      {
+        "enabled": true,
+        "type": "export-pfb-to-workspace",
+        "title": "Export to Workspace",
+        "leftIcon": "datafile",
+        "rightIcon": "download"
+      },
+      {
+        "enabled": true,
+        "type": "export-to-pfb",
+        "title": "Export to PFB",
+        "leftIcon": "datafile",
+        "rightIcon": "download"
+      }
+    ],
+    "guppyConfig": {
+      "dataType": "food",
+      "nodeCountTitle": "Foods",
+      "accessibleFieldCheckList": ["project_id"],
+      "accessibleValidationField": "project_id",
+      "fieldMapping": [
+          {
+            "field": "food_link",
+            "name": ""
+          },
+          {
+            "field": "upc",
+            "name": "UPC"
+          },
+          {
+            "field": "data_source",
+            "name": "Datasets"
+          },
+          {
+            "field": "measurements.panel",
+            "name": "Panel"
+          },
+          {
+            "field": "measurements.parent_concept",
+            "name": "Parent Concept"
+          },
+          {
+            "field": "measurements.concept",
+            "name": "Concept"
+          },
+          {
+            "field": "measurements.unit",
+            "name": "Unit"
+          },
+          {
+            "field": "measurements.quantity",
+            "name": "Quantity"
+          },
+          {
+            "field": "measurement_tot.panel",
+            "name": "Panel"
+          },
+          {
+            "field": "measurement_tot.parent_concept",
+            "name": "Parent Concept"
+          },
+          {
+            "field": "measurement_tot.concept",
+            "name": "Concept"
+          },
+          {
+            "field": "recipes.name",
+            "name": "Processed Ingredient List"
+          },
+          {
+            "field": "recipes.sweetener",
+            "name": "Sweeteners"
+          },
+          {
+            "field": "recipes.category",
+            "name": "Ingredient Category"
+          },
+          {
+            "field": "recipes.recipe_measurements.quantity",
+            "name": "Quantity"
+          },
+          {
+            "field": "recipe_measurements_panel_unique",
+            "name": "Panel"
+          },
+          {
+            "field": "recipes.recipe_measurements.concept",
+            "name": "Concept"
+          },
+          {
+            "field": "recipes.recipe_measurements.unit",
+            "name": "Unit"
+          }
+        ]
+    }
+  },
+  "resourceBrowser": {
+    "title": "Sample Notebooks",
+    "public": true,
+    "description": "",
+    "resources": [
+      {
+        "title": "Visualizing Baby Foods Data",
+        "description": "In this notebook we explore some of the properties associated with baby food data in the WISEcode for Science Platform",
+        "link": "https://gen3-poc.s3.amazonaws.com/notebook.html",
+        "imageUrl": "https://gen3-poc.s3.amazonaws.com/notebook.png"
+      },
+      {
+        "title": "Analysis of Added Sugar Intake in Beverages",
+        "description": "In this notebook we explore the research question - What beverages contribute most to the added sugar intake of Americans? - The sample analysis uses data from NHANES, FNDDS, USDA Branded Foods and WISEcode for Science.",
+        "link": "https://gen3-poc.s3.amazonaws.com/Beverages.html",
+        "imageUrl": "https://gen3-poc.s3.amazonaws.com/beverages.png"
+      }
+    ]
+  }
+}

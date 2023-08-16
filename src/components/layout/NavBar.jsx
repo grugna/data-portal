@@ -88,31 +88,22 @@ class NavBar extends Component {
     // added for backward compatibility
     // should always add homepageHref to components in portal config in the future
     const homepageHref = components.homepageHref || config.homepageHref;
-
+    
+    if (this.props.location.pathname == "/login"){
+      return <></>
+    }
     return (
       <div className='nav-bar'>
         <header className='nav-bar__header'>
           <nav className='nav-bar__nav--info'>
             <div className='nav-bar__logo g3-ring-on-focus'>
-              {homepageHref
-                ? (
-                  <a href={homepageHref}>
-                    <img
-                      className='nav-bar__logo-img'
-                      src='/src/img/logo.png'
-                      alt={commonsWideAltText.portalLogo || 'Gen3 Data Commons - home'}
-                    />
-                  </a>
-                )
-                : (
-                  <NavLink exact to=''>
-                    <img
-                      className='nav-bar__logo-img'
-                      src='/src/img/logo.png'
-                      alt={commonsWideAltText.portalLogo || 'Gen3 Data Commons - home'}
-                    />
-                  </NavLink>
-                )}
+                <NavLink exact to='/explorer'>
+                  <img
+                    className='nav-bar__logo-img'
+                    src='/src/img/logo.png'
+                    alt={commonsWideAltText.portalLogo || 'Gen3 Data Commons - home'}
+                  />
+                </NavLink>
             </div>
             {
               this.props.navTitle && (

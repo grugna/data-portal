@@ -15,8 +15,13 @@ import IconExperimentalMethods from './icons/icon_experimental_methods.svg';
 import IconSubjectCharacteristics from './icons/icon_subject_characteristics.svg';
 import IconImaging from './icons/icon_imaging.svg';
 import IconStudyAdministration from './icons/icon_study_administration.svg';
+import FoodIcon from './icons/icon_food.svg';
 
 const nodeCategoryDict = {
+  food: {
+    icon: FoodIcon,
+    color: "#3BABEC"
+  },
   clinical: {
     icon: IconClinical,
     color: '#05B8EE',

@@ -14,11 +14,106 @@ import {
   TableConfigType,
   ButtonConfigType,
   ChartConfigType,
+  ChartTabConfigType,
   GuppyConfigType,
 } from '../configTypeDef';
 import { checkForAnySelectedUnaccessibleField } from '../GuppyDataExplorerHelper';
 import './ExplorerVisualization.css';
 import { labelToPlural } from '../utils';
+
+// https://www.digitalocean.com/community/tutorials/react-tabs-component
+class Tabs extends React.Component {
+  static propTypes = {
+    children: PropTypes.instanceOf(Array).isRequired,
+  }
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      activeTab: this.props.children[0].props.label,
+    };
+  }
+
+  onClickTabItem = (tab) => {
+    this.setState({ activeTab: tab });
+  }
+
+  render() {
+    const {
+      onClickTabItem,
+      props: {
+        children,
+      },
+      state: {
+        activeTab,
+      }
+    } = this;
+
+    return (
+      <div className="tabs">
+        <ol className="tab-list">
+          {children.map((child) => {
+            const { label } = child.props;
+
+            return (
+              <Tab
+                activeTab={activeTab}
+                key={label}
+                label={label}
+                onClick={onClickTabItem}
+              />
+            );
+          })}
+        </ol>
+        <div className="tab-content">
+          {children.map((child) => {
+            if (child.props.label !== activeTab) return undefined;
+            return child.props.children;
+          })}
+        </div>
+      </div>
+    );
+  }
+
+}
+class Tab extends React.Component {
+  static propTypes = {
+    activeTab: PropTypes.string.isRequired,
+    label: PropTypes.string.isRequired,
+    onClick: PropTypes.func.isRequired,
+  };
+
+  onClick = () => {
+    const { label, onClick } = this.props;
+    onClick(label);
+  }
+
+  render() {
+    const {
+      onClick,
+      props: {
+        activeTab,
+        label,
+      },
+    } = this;
+
+    let className = 'tab-list-item';
+
+    if (activeTab === label) {
+      className += ' tab-list-active';
+    }
+
+    return (
+      <li
+        className={className}
+        onClick={onClick}
+      >
+        {label}
+      </li>
+    );
+  }
+}
 
 class ExplorerVisualization extends React.Component {
   constructor(props) {
@@ -52,6 +147,7 @@ class ExplorerVisualization extends React.Component {
         const dataItem = {
           type: chartConfig[`${field}`].chartType,
           title: chartConfig[`${field}`].title,
+          tab: chartConfig[`${field}`].tab,
           data: histogram.map((i) => ({ name: i.key, value: i.count })),
         };
         if (chartConfig[`${field}`].chartType === 'stackedBar') {
@@ -74,6 +170,7 @@ class ExplorerVisualization extends React.Component {
       if (bIndex === -1) return 1;
       return aIndex - bIndex;
     });
+
     return { summaries, countItems, stackedBarCharts };
   }
 
@@ -133,7 +230,14 @@ class ExplorerVisualization extends React.Component {
 
     return (
       <div className={this.props.className}>
-        <div className='guppy-explorer-visualization__button-group' id='guppy-explorer-data-tools'>
+        {
+          chartData.countItems.length > 0 && (
+            <div className='guppy-explorer-visualization__summary-cards' id='guppy-explorer-summary-statistics'>
+              <DataSummaryCardGroup summaryItems={chartData.countItems} connected />
+            </div>
+          )
+        }
+        <div className=' guppy-explorer-visualization__button-group guppy_button_right_align_new' id='guppy-explorer-data-tools'>
           <ReduxExplorerButtonGroup
             buttonConfig={this.props.buttonConfig}
             guppyConfig={this.props.guppyConfig}
@@ -150,25 +254,38 @@ class ExplorerVisualization extends React.Component {
           />
         </div>
         {
-          chartData.countItems.length > 0 && (
-            <div className='guppy-explorer-visualization__summary-cards' id='guppy-explorer-summary-statistics'>
-              <DataSummaryCardGroup summaryItems={chartData.countItems} connected />
-            </div>
-          )
-        }
-        {
           chartData.summaries.length > 0 && (
-            <div className='guppy-explorer-visualization__charts'>
-              <SummaryChartGroup
-                summaries={chartData.summaries}
-                lockMessage={lockMessage}
-                barChartColor={barChartColor}
-                useCustomizedColorMap={!!components.categorical9Colors}
-                customizedColorMap={components.categorical9Colors || []}
-              />
-            </div>
+              (this.props.chartTabConfig === undefined || this.props.chartTabConfig.length) == 0 ?
+                (
+                  <SummaryChartGroup
+                    summaries={chartData.summaries}
+                    lockMessage={lockMessage}
+                    barChartColor={barChartColor}
+                    useCustomizedColorMap={!!components.categorical9Colors}
+                    customizedColorMap={components.categorical9Colors || []}
+                  />
+                ) 
+              :
+                (
+                  <Tabs>
+                    {
+                      this.props.chartTabConfig.map(tab => (
+                          <div key={"summaries_" + tab} className='guppy-explorer-visualization__charts' label={tab}>
+                            <SummaryChartGroup
+                              summaries={chartData.summaries.filter( obj => { if (obj.tab == tab){ return obj; }})}
+                              lockMessage={lockMessage}
+                              barChartColor={barChartColor}
+                              useCustomizedColorMap={!!components.categorical9Colors}
+                              customizedColorMap={components.categorical9Colors || []}
+                            />
+                          </div>
+                        )
+                      )
+                    }
+                  </Tabs>
+                )
           )
-        }
+        }     
         {
           chartData.stackedBarCharts.length > 0 && (
             <div className='guppy-explorer-visualization__charts'>
@@ -268,6 +385,7 @@ ExplorerVisualization.propTypes = {
   history: PropTypes.object.isRequired,
   className: PropTypes.string,
   chartConfig: ChartConfigType,
+  chartTabConfig: ChartTabConfigType,
   tableConfig: TableConfigType,
   buttonConfig: ButtonConfigType,
   heatMapConfig: PropTypes.object,
@@ -292,6 +410,7 @@ ExplorerVisualization.defaultProps = {
   accessibleFieldObject: {},
   className: '',
   chartConfig: {},
+  chartTabConfig: [],
   tableConfig: {},
   buttonConfig: {},
   heatMapConfig: {},
