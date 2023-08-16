@@ -137,7 +137,7 @@ export const fetchCreds = (opts) => {
               case 200:
                 return Promise.resolve(fetch(path, request)
                   .then(
-                    (res) => getJsonOrText(path, res, useCache, method)
+                    (res) => getJsonOrText(path, res, useCache, method),
                   ));
               default:
                 return {
