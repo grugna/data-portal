@@ -228,14 +228,13 @@ class ProtectedContent extends React.Component {
             fromURL = fromURL.concat(this.state.from.search);
           }
         }
-      }
-      return (
-        <Redirect to={{
-          pathname: this.state.redirectTo,
-          from: fromURL,
-        }}
-        />
-      );
+        return (
+          <Redirect to={{
+            pathname: this.state.redirectTo,
+            from: fromURL,
+          }}
+          />
+        );
     }
     if (this.props.public && (!this.props.filter || typeof this.props.filter !== 'function')) {
       return (
