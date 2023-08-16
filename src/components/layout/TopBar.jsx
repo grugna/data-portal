@@ -20,6 +20,9 @@ class TopBar extends Component {
   isActive = (id) => this.props.activeTab === id;
 
   render() {
+    if (this.props.location.pathname == "/login"){
+      return <></>
+    }
     return (
       <div className='top-bar'>
         <header className='top-bar__header'>

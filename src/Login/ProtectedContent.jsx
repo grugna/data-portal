@@ -122,8 +122,10 @@ class ProtectedContent extends React.Component {
     return store.dispatch(fetchUser) // make an API call to see if we're still logged in ...
       .then(
         (response) => {
+          console.log(response)
           const { user } = store.getState();
           newState.user = user;
+          console.log(user)
           if (!user.username) { // not authenticated
             newState.redirectTo = '/login';
             newState.authenticated = false;
@@ -167,6 +169,7 @@ class ProtectedContent extends React.Component {
           // user already has a valid token
           return Promise.resolve(newState);
         }
+        console.log(info)
         if (info.status !== 403 || info.status !== 401) {
           // do not authenticate unless we have a 403 or 401
           // should only check 401 after we fix fence to return correct
@@ -219,10 +222,11 @@ class ProtectedContent extends React.Component {
     const pageFullWidthClassModifier = isPageFullScreen(this.props.location.pathname) ? 'protected-content--full-screen' : '';
     if (this.state.redirectTo) {
       let fromURL = '/';
-      if (this.state.from && this.state.from.pathname) {
-        fromURL = this.state.from.pathname;
-        if (this.state.from.search && this.state.from.search !== '') {
-          fromURL = fromURL.concat(this.state.from.search);
+        if (this.state.from && this.state.from.pathname) {
+          fromURL = this.state.from.pathname;
+          if (this.state.from.search && this.state.from.search !== '') {
+            fromURL = fromURL.concat(this.state.from.search);
+          }
         }
       }
       return (
@@ -233,7 +237,6 @@ class ProtectedContent extends React.Component {
         />
       );
     }
-
     if (this.props.public && (!this.props.filter || typeof this.props.filter !== 'function')) {
       return (
 

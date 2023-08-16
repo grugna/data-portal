@@ -45,44 +45,46 @@ declare -a gitopsFiles=(
 #
 gitops_config() {
   local hostname
-  local gitRepo
+#  local gitRepo
   local manifestFile
   local portalApp
   local portalGitopsFolder
 
-  gitRepo="cdis-manifest"
+#  gitRepo="cdis-manifest"
   hostname="$1"
   shift
 
-  if [[ -z "$hostname" ]]; then
-    echo "ERROR: gitops_config requires hostname arg"
-    return 1
-  fi
-  if [[ "$hostname" =~ ^qa- ]]; then
-    gitRepo="gitops-qa"
-  elif [[ "$hostname" =~ planx-pla.net$ ]]; then
-    gitRepo="gitops-dev"
-  fi
-  if [[ ! -d "../$gitRepo" ]]; then
-    # git clone
-    echo "ERROR: ../$gitRepo does not exist - please clone https://github.com/uc-cdis/${gitRepo}.git"
-    return 1
-  fi
-  manifestFile="../$gitRepo/$hostname/manifest.json"
-  if [[ ! -f "$manifestFile" ]]; then
-    echo "ERROR: gitops_config - manifest does not exist $manifestFile"
-    return 1
-  fi
+#  if [[ -z "$hostname" ]]; then
+#    echo "ERROR: gitops_config requires hostname arg"
+#    return 1
+#  fi
+#  if [[ "$hostname" =~ ^qa- ]]; then
+#    gitRepo="gitops-qa"
+#  elif [[ "$hostname" =~ planx-pla.net$ ]]; then
+#    gitRepo="gitops-dev"
+#  fi
+#  if [[ ! -d "../$gitRepo" ]]; then
+#    # git clone
+#    echo "ERROR: ../$gitRepo does not exist - please clone https://github.com/uc-cdis/${gitRepo}.git"
+#    return 1
+#  fi
+
+#  if [[ ! -f "$manifestFile" ]]; then
+#    echo "ERROR: gitops_config - manifest does not exist $manifestFile"
+#    return 1
+#  fi
+
+#  if [[ -z "$portalApp" ]]; then
+#    echo "ERROR: unable to determine portal_app from manifest at $manifestFile"
+#    return 1
+#  fi
+  manifestFile="$hostname/manifest.json"
   portalApp="$(jq -r .global.portal_app < $manifestFile)"
-  if [[ -z "$portalApp" ]]; then
-    echo "ERROR: unable to determine portal_app from manifest at $manifestFile"
-    return 1
-  fi
   echo "INFO: gitops_config - setting APP=$portalApp"
   export HOSTNAME="$hostname"
   export APP="$portalApp"
   if [[ "$portalApp" == "gitops" ]]; then
-    portalGitopsFolder="../$gitRepo/$hostname/portal"
+    portalGitopsFolder="$hostname/portal"
     local it=0
     local copySource
     local copyDest
