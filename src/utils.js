@@ -12,12 +12,34 @@ export const humanFileSize = (size) => {
   return `${sizeStr} ${suffix}`;
 };
 
+export const getWC4SPlatformUrl = () => {
+  let platformUrl;
+  const host = window.location.hostname;
+  if (host == 'science-dev.wisecode.ai') {
+    platformUrl = 'https://business-dev.wisecode.ai/'
+  } else if (host == 'science.wisecode.ai') {
+    platformUrl = 'https://business.wisecode.ai/'
+  }
+  return platformUrl;
+}
+
 export const getSubmitPath = (project) => {
   const path = project.split('-');
   const programName = path[0];
   const projectCode = path.slice(1).join('-');
   return `${submissionApiPath}/${programName}/${projectCode}`;
 };
+
+export const fetcher = async (url, method, data, headers, cors = 'no-cors', cache = 'no-cache') => {
+  const response = await fetch(url, {
+    method: method,
+    headers,
+    body: JSON.stringify(data)
+  });
+  return response
+}
+
+export default fetcher
 
 export const jsonToString = (data, schema = {}) => {
   const replacer = (key, value) => {
@@ -253,3 +275,8 @@ export const createKayakoTicket = async (subject, fullName, email, contents, dep
     throw new Error(`Request for create Kayako ticket failed: ${err}`);
   }
 };
+
+const wait = (ms) => {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
