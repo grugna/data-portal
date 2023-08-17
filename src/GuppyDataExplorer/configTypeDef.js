@@ -51,3 +51,5 @@ export const ButtonConfigType = PropTypes.shape({
 });
 
 export const ChartConfigType = PropTypes.object;
+
+export const ChartTabConfigType = PropTypes.arrayOf(PropTypes.string);
