@@ -309,7 +309,7 @@ function buildConfig(opts) {
     studyRegistrationConfig.studyRegistrationAccessCheckField = 'registration_authz';
   }
   if (!studyRegistrationConfig.studyRegistrationUIDField) {
-    studyRegistrationConfig.studyRegistrationUIDField = 'appl_id';
+    studyRegistrationConfig.studyRegistrationUIDField = discoveryConfig?.minimalFieldMapping?.uid;
   }
   if (!studyRegistrationConfig.dataDictionaryField) {
     studyRegistrationConfig.dataDictionaryField = '';
@@ -445,13 +445,6 @@ function buildConfig(opts) {
           analysisApps.GWASResults = {
             title: 'GWAS Results',
             description: 'Use this App to view status & results of submitted workflows',
-            image: '/src/img/analysis-icons/gwasResults.svg',
-          };
-          break;
-        case 'GWASResultsV2':
-          analysisApps.GWASResultsV2 = {
-            title: 'GWAS ResultsV2',
-            description: 'Temporary card for opening the V2 of GWAS Results App',
             image: '/src/img/analysis-icons/gwasResults.svg',
           };
           break;
