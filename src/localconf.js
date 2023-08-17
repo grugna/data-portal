@@ -211,6 +211,10 @@ function buildConfig(opts) {
   if (components.systemUse && components.systemUse.systemUseText) {
     showSystemUse = true;
   }
+  let showSystemUseOnlyOnLogin = false;
+  if (components.systemUse && components.systemUse.showOnlyOnLogin) {
+    showSystemUseOnlyOnLogin = true;
+  }
 
   let showArboristAuthzOnProfile = false;
   if (config.showArboristAuthzOnProfile) {
@@ -302,6 +306,9 @@ function buildConfig(opts) {
   }
   if (!studyRegistrationConfig.studyRegistrationUIDField) {
     studyRegistrationConfig.studyRegistrationUIDField = 'appl_id';
+  }
+  if (!studyRegistrationConfig.dataDictionaryField) {
+    studyRegistrationConfig.dataDictionaryField = '';
   }
   const { workspacePageTitle } = config;
   const { workspacePageDescription } = config;
@@ -434,6 +441,13 @@ function buildConfig(opts) {
           analysisApps.GWASResults = {
             title: 'GWAS Results',
             description: 'Use this App to view status & results of submitted workflows',
+            image: '/src/img/analysis-icons/gwasResults.svg',
+          };
+          break;
+        case 'GWASResultsV2':
+          analysisApps.GWASResultsV2 = {
+            title: 'GWAS ResultsV2',
+            description: 'Temporary card for opening the V2 of GWAS Results App',
             image: '/src/img/analysis-icons/gwasResults.svg',
           };
           break;
@@ -573,6 +587,7 @@ function buildConfig(opts) {
     ddEnv,
     ddSampleRate,
     showSystemUse,
+    showSystemUseOnlyOnLogin,
     Error403Url,
   };
 }

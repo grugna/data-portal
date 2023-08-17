@@ -15,7 +15,7 @@ import {
   wtsAggregateAuthzPath,
 } from './configs';
 import { config } from './params';
-import { showSystemUse } from './localconf';
+import { showSystemUse, showSystemUseOnlyOnLogin } from './localconf';
 import sessionMonitor from './SessionMonitor';
 import isEnabled from './helpers/featureFlags';
 
@@ -312,7 +312,7 @@ export const refreshUser = () => fetchUser;
 
 export const logoutAPI = (displayAuthPopup = false) => (dispatch) => {
   const cleanBasename = basename.replace(/^\/+/g, '').replace(/(dev.html$)/, '');
-  fetch(`${userAPIPath}/logout?next=${hostname}${cleanBasename}`)
+  fetch(`${userAPIPath}logout?next=${hostname}${cleanBasename}`)
     .then((response) => {
       if (displayAuthPopup) {
         dispatch({
@@ -343,11 +343,12 @@ export const logoutAPI = (displayAuthPopup = false) => (dispatch) => {
  *     *) expireUseMsgDays: number of days until displaying message again, set to 0 to make it
  *        a browser session
  */
-export const checkIfDisplaySystemUseNotice = () => (dispatch) => {
+export const checkIfDisplaySystemUseNotice = (authenticated) => (dispatch) => {
   // couple of option for when to display the system use warning
   // displayUseMsg:
   // "cookie": use the cookie and expireValue (defaults to 0 to show use message per session
   //  undefined or systemUseText is undefined: always false
+  //
   if (!showSystemUse) {
     dispatch({
       type: 'UPDATE_POPUP',
@@ -357,7 +358,7 @@ export const checkIfDisplaySystemUseNotice = () => (dispatch) => {
     });
     return;
   }
-  // look for cookie
+  // look for cookie, if exists then do not show systemUse
   if (document.cookie.indexOf('systemUseWarning=') >= 0) {
     dispatch({
       type: 'UPDATE_POPUP',
@@ -365,14 +366,28 @@ export const checkIfDisplaySystemUseNotice = () => (dispatch) => {
         systemUseWarnPopup: false,
       },
     });
-  } else {
-    dispatch({
-      type: 'UPDATE_POPUP',
-      data: {
-        systemUseWarnPopup: true,
-      },
-    });
+    return;
   }
+  // test to see if systemUse dialog should be shown
+  if (showSystemUseOnlyOnLogin) { // if set to show only on login
+    if (authenticated) { // and logged in, show systemUse
+      dispatch({
+        type: 'UPDATE_POPUP',
+        data: {
+          systemUseWarnPopup: true,
+        },
+      });
+    }
+    return;
+  }
+  // last case, show system use
+  dispatch({
+    type: 'UPDATE_POPUP',
+    data: {
+      systemUseWarnPopup: true,
+    },
+  });
+
   // don't change anything
 };
 
@@ -385,7 +400,9 @@ export const updateSystemUseNotice = (displayUseWarning) => (dispatch) => {
   });
 };
 
-export const displaySystemUseNotice = () => (dispatch, getState) => dispatch(checkIfDisplaySystemUseNotice(getState().popups.systemUseWarnPopup));
+export const displaySystemUseNotice = (authenticated) => (dispatch) => dispatch(
+  checkIfDisplaySystemUseNotice(authenticated),
+);
 
 /*
  * redux-thunk support asynchronous redux actions via 'thunks' -
