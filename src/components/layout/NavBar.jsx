@@ -6,9 +6,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import NavButton from './NavButton';
 import NavBarTooltip from './NavBarTooltip';
-import { breakpoints, commonsWideAltText } from '../../localconf';
+import { breakpoints, commonsWideAltText, basename } from '../../localconf';
 import { config, components } from '../../params';
 import './NavBar.less';
+
+const cleanBasename = basename.replace(/(\/dev.html$)/, '');
 
 /**
  * NavBar renders row of nav-items of form { name, icon, link }
