@@ -5,6 +5,33 @@ import { fetchWithCreds } from '../../../actions';
 import { headers } from '../../../configs';
 import { hareConceptId } from '../shared/constants';
 
+export const fetchConceptStatsByHare = async (
+  cohortDefinitionId,
+  selectedCovariates,
+  selectedDichotomousCovariates,
+  sourceId,
+) => {
+  const variablesPayload = {
+    variables:
+      [
+        ...selectedDichotomousCovariates.map(({ uuid, ...withNoId }) => withNoId),
+        ...selectedCovariates.map((c) => ({
+          variable_type: 'concept',
+          concept_id: c.concept_id,
+        })),
+      ],
+  };
+  const conceptStatsEndPoint = `${cohortMiddlewarePath}concept-stats/by-source-id/${sourceId}/by-cohort-definition-id/${cohortDefinitionId}/breakdown-by-concept-id/${hareConceptId}`;
+  const reqBody = {
+    method: 'POST',
+    credentials: 'include',
+    headers,
+    body: JSON.stringify(variablesPayload),
+  };
+  const getConceptStats = await fetch(conceptStatsEndPoint, reqBody);
+  return getConceptStats.json();
+};
+
 export const fetchOverlapInfo = async (
   sourceId,
   caseCohortDefinitionId,
@@ -33,20 +60,34 @@ export const fetchOverlapInfo = async (
   return getOverlapStats.json();
 };
 
-export const fetchConceptStatsByHare = async (
+export const filterSubsetCovariates = (subsetCovariates) => {
+  const filteredSubsets = [];
+  subsetCovariates.forEach((covariate) => {
+    if (covariate.variable_type === 'custom_dichotomous') {
+      filteredSubsets.push({
+        cohort_ids: covariate.cohort_ids,
+        provided_name: covariate.provided_name,
+        variable_type: covariate.variable_type,
+      });
+    } else {
+      filteredSubsets.push({
+        variable_type: 'concept',
+        concept_id: covariate.concept_id,
+      });
+    }
+  });
+  return filteredSubsets;
+};
+
+export const fetchConceptStatsByHareSubset = async (
   cohortDefinitionId,
-  selectedCovariates,
-  selectedDichotomousCovariates,
+  subsetCovariates,
   sourceId,
 ) => {
   const variablesPayload = {
     variables:
       [
-        ...selectedDichotomousCovariates.map(({ uuid, ...withNoId }) => withNoId),
-        ...selectedCovariates.map((c) => ({
-          variable_type: 'concept',
-          concept_id: c.concept_id,
-        })),
+        ...filterSubsetCovariates(subsetCovariates),
       ],
   };
   const conceptStatsEndPoint = `${cohortMiddlewarePath}concept-stats/by-source-id/${sourceId}/by-cohort-definition-id/${cohortDefinitionId}/breakdown-by-concept-id/${hareConceptId}`;
@@ -59,6 +100,46 @@ export const fetchConceptStatsByHare = async (
   const getConceptStats = await fetch(conceptStatsEndPoint, reqBody);
   return getConceptStats.json();
 };
+
+export const addCDFilter = (cohortId, otherCohortId, covariateArr) => {
+  // adding an extra filter on top of the given covariateArr
+  // to ensure that any person that belongs to _both_ cohorts
+  // [cohortId, otherCohortId] also gets filtered out:
+  const covariateRequest = [...covariateArr];
+  const cdFilter = {
+    variable_type: 'custom_dichotomous',
+    cohort_ids: [cohortId, otherCohortId],
+    provided_name: 'auto_generated_extra_item_to_filter_out_case_control_overlap',
+  };
+  covariateRequest.push(cdFilter);
+  return covariateRequest;
+};
+
+export const fetchConceptStatsByHareSubsetCC = async (
+  cohortDefinitionId,
+  otherCohortDefinitionId,
+  covariateSubset,
+  sourceId,
+) => fetchConceptStatsByHareSubset(
+  cohortDefinitionId,
+  addCDFilter(cohortDefinitionId, otherCohortDefinitionId, covariateSubset),
+  sourceId,
+);
+
+export const fetchConceptStatsByHareForCaseControl = async (
+  queriedCohortDefinitionId,
+  otherCohortDefinitionId,
+  selectedCovariates,
+  selectedDichotomousCovariates,
+  sourceId,
+) => fetchConceptStatsByHareSubset(
+  queriedCohortDefinitionId,
+  addCDFilter(
+    queriedCohortDefinitionId,
+    otherCohortDefinitionId,
+    [...selectedCovariates, ...selectedDichotomousCovariates]),
+  sourceId,
+);
 
 export const fetchCovariateStats = async (
   cohortDefinitionId,

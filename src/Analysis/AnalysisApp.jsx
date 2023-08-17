@@ -13,6 +13,7 @@ import { analysisApps } from '../localconf';
 import './AnalysisApp.css';
 import sessionMonitor from '../SessionMonitor';
 import GWASWorkflowList from './GWASUIApp/GWASWorkflowList';
+import GWASContainer from "./GWASV2/GWASContainer";
 
 const queryClient = new QueryClient();
 
@@ -53,10 +54,6 @@ class AnalysisApp extends React.Component {
     this.clearResult();
     this.props.submitJob({ organ: this.state.jobInput ? this.state.jobInput.value : null });
     this.props.checkJobStatus();
-  }
-
-  refreshWorkflows = () => {
-    queryClient.invalidateQueries('workflows');
   }
 
   processAppMessages = (event) => {
@@ -104,7 +101,7 @@ class AnalysisApp extends React.Component {
         <TourProvider
           afterOpen={disableBody}
           beforeClose={enableBody}
-          disableInteraction={true}
+          disableInteraction
           onClickClose={({ setCurrentStep, setIsOpen }) => {
             setIsOpen(false);
 
@@ -112,18 +109,21 @@ class AnalysisApp extends React.Component {
           }}
         >
           <div className='analysis-app_flex_col'>
-            <div className='analysis-app_flex_row'>
-              <ReduxGWASUIApp refreshWorkflows={this.refreshWorkflows} />
-            </div>
+            <ReduxGWASUIApp />
           </div>
         </TourProvider>
       );
     case 'GWASResults':
       return (
         <div className='analysis-app_flex_row'>
-          <GWASWorkflowList refreshWorkflows={this.refreshWorkflows} />
+            <GWASWorkflowList refetchInterval={5000} />
         </div>
       );
+    case 'GWAS++': {
+      return <div>
+        <GWASContainer refreshWorkflows={this.refreshWorkflows}/>
+      </div>
+    }
     default:
       // this will ensure the main window will process the app messages (if any):
       window.addEventListener('message', this.processAppMessages);

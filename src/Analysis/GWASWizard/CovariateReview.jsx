@@ -9,12 +9,12 @@ import { fetchCovariateStats, queryConfig } from './wizardEndpoints/cohortMiddle
 
 export const covariateReviewTableConfig = [
   {
-    title: 'Concept ID',
+    title: 'Variable ID',
     dataIndex: 'concept_id',
     key: 'concept_id',
   },
   {
-    title: 'Concept Name',
+    title: 'Variable Name',
     dataIndex: 'concept_name',
     key: 'concept_name',
   },
@@ -75,7 +75,6 @@ const CovariateReview = ({
     // after map above, allConcepts contains both case and control stats:
     return (
       <Space direction={'vertical'} align={'center'} style={{ width: '100%' }}>
-        <hr />
         <h4 className='GWASUI-selectInstruction' data-tour='step-4-review'>
                     In this step, you can review the covariates selection based on % missing metrics.
                     To adjust covariates please return to Step 3.

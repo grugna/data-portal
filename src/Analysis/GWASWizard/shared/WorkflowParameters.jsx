@@ -25,6 +25,7 @@ const WorkflowParameters = ({
   imputationScore,
   handleImputation,
   handleCovariateDelete,
+  handleDichotomousCovariateDelete,
   outcomeId,
 }) => (
   <Space direction={'vertical'} align={'center'} style={{ width: '100%' }}>
@@ -37,10 +38,10 @@ const WorkflowParameters = ({
       You may also remove unwanted covariates.
       Please also choose the ancestry population on which you would like to perform your study.
     </h4>
-    <div className='GWASUI-mainArea GWASUI-form'>
-      <div className='GWASUI-formItem' data-tour='number-of-pcs'>
-        <span style={{ color: 'red' }}>*</span>Number of PCs to use &nbsp;
-        <label htmlFor='input-numOfPC'>
+    <div className='GWASUI-mainArea'>
+      <div data-tour='number-of-pcs'>
+        <label className='GWASUI-label GWASUI-asterisk' htmlFor='input-numOfPC'>
+          Number of PCs to use &nbsp;
           <InputNumber
             id='input-numOfPC'
             value={numOfPC}
@@ -51,8 +52,8 @@ const WorkflowParameters = ({
           {(!numOfPC) && (<span style={{ color: 'red' }}> Please input a value between 1 and 10</span>)}
         </label>
       </div>
-      <div className='GWASUI-formItem' data-tour='covariates'>
-        <label htmlFor='select-covariates'>
+      <div data-tour='covariates'>
+        <label className='GWASUI-label' htmlFor='select-covariates'>
           Covariates &nbsp;
           <Select
             id='select-covariates'
@@ -61,29 +62,26 @@ const WorkflowParameters = ({
               outcomeId ? selectedCovariates.filter((covs) => covs.concept_id !== outcomeId).map((s) => s.concept_name)
                 : selectedCovariates.map((s) => s.concept_name)
             }
-            disabled={selectedCovariates.length === 1}
             onChange={(e) => handleCovariateDelete(e)}
             style={{ width: '70%' }}
           />
         </label>
       </div>
-      <div className='GWASUI-formItem'>
-        <label htmlFor='select-dichotomous-covariates'>
+      <div>
+        <label className='GWASUI-label' htmlFor='select-dichotomous-covariates'>
           Dichotomous Covariates &nbsp;
           <Select
             id='select-dichotomous-covariates'
             mode='multiple'
             value={selectedDichotomousCovariates.length ? selectedDichotomousCovariates.map((s) => s.provided_name) : []}
-            // TODO currently cant delete cd's from this page
-            // onChange={(e) => handleDichotomousCovariateDelete(e)}
+            onChange={(e) => handleDichotomousCovariateDelete(e)}
             style={{ width: '70%' }}
           />
         </label>
       </div>
-      <div className='GWASUI-formItem' data-tour='hare'>
+      <div data-tour='hare'>
         {workflowType === 'caseControl' && (
-          <label htmlFor='select-hare-case-control'>
-            <span style={{ color: 'red' }}>*</span>
+          <label className='GWASUI-label GWASUI-asterisk' htmlFor='select-hare-case-control'>
             Select HARE group &nbsp;
             <CovariateStatsByHareCC
               id='select-hare-case-control'
@@ -99,8 +97,7 @@ const WorkflowParameters = ({
           </label>
         )}
         {workflowType === 'quantitative' && (
-          <label htmlFor='select-hare-quantitative'>
-            <span style={{ color: 'red' }}>*</span>
+          <label className='GWASUI-label GWASUI-asterisk' htmlFor='select-hare-quantitative'>
             Select HARE group &nbsp;
             <CovariateStatsByHareQ
               id='select-hare-quantitative'
@@ -111,12 +108,11 @@ const WorkflowParameters = ({
               sourceId={sourceId}
               handleHareChange={handleHareChange}
             />
-
           </label>
         )}
       </div>
-      <div className='GWASUI-formItem' data-tour='maf-cutoff'>
-        <label htmlFor='input-maf'>
+      <div data-tour='maf-cutoff'>
+        <label className='GWASUI-label' htmlFor='input-maf'>
           MAF Cutoff &nbsp;
           <InputNumber
             id='input-maf'
@@ -129,8 +125,8 @@ const WorkflowParameters = ({
           />
         </label>
       </div>
-      <div className='GWASUI-formItem' data-tour='imputation-score'>
-        <label htmlFor='input-imputation'>
+      <div data-tour='imputation-score'>
+        <label className='GWASUI-label' htmlFor='input-imputation'>
           Imputation Score Cutoff &nbsp;
           <InputNumber
             id='input-imputation'
@@ -165,12 +161,13 @@ WorkflowParameters.propTypes = {
   numOfPC: PropTypes.number.isRequired,
   handleNumOfPC: PropTypes.func.isRequired,
   handleCovariateDelete: PropTypes.func.isRequired,
+  handleDichotomousCovariateDelete: PropTypes.func.isRequired,
   outcomeId: PropTypes.number,
 };
 
 WorkflowParameters.defaultProps = {
-  controlCohortDefinitionId: undefined,
   caseCohortDefinitionId: undefined,
+  controlCohortDefinitionId: undefined,
   quantitativeCohortDefinitionId: undefined,
   outcomeId: undefined,
   cohortSizes: undefined,
