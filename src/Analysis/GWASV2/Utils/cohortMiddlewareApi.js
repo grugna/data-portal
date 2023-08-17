@@ -1,66 +1,10 @@
 /* eslint-disable camelcase */
 import { useState, useEffect } from 'react';
-import { cohortMiddlewarePath, wtsPath } from '../../../localconf';
-import { fetchWithCreds } from '../../../actions';
+import { cohortMiddlewarePath } from '../../../localconf';
 import { headers } from '../../../configs';
 
 const hareConceptId = 2000007027;
 
-export const fetchConceptStatsByHare = async (
-  cohortDefinitionId,
-  selectedCovariates,
-  selectedDichotomousCovariates,
-  sourceId,
-) => {
-  const variablesPayload = {
-    variables: [
-      ...selectedDichotomousCovariates.map(({ uuid, ...withNoId }) => withNoId),
-      ...selectedCovariates.map((c) => ({
-        variable_type: 'concept',
-        concept_id: c.concept_id,
-      })),
-    ],
-  };
-  const conceptStatsEndPoint = `${cohortMiddlewarePath}concept-stats/by-source-id/${sourceId}/by-cohort-definition-id/${cohortDefinitionId}/breakdown-by-concept-id/${hareConceptId}`;
-  const reqBody = {
-    method: 'POST',
-    credentials: 'include',
-    headers,
-    body: JSON.stringify(variablesPayload),
-  };
-  const getConceptStats = await fetch(conceptStatsEndPoint, reqBody);
-  return getConceptStats.json();
-};
-
-export const fetchOverlapInfo = async (
-  sourceId,
-  caseCohortDefinitionId,
-  controlCohortDefinitionId,
-  selectedHare,
-  selectedCovariates,
-  selectedDichotomousCovariates,
-) => {
-  const variablesPayload = {
-    variables: [
-      ...selectedDichotomousCovariates.map(({ uuid, ...withNoId }) => withNoId),
-      ...selectedCovariates.map((c) => ({
-        variable_type: 'concept',
-        concept_id: c.concept_id,
-      })),
-    ],
-  };
-  const statsEndPoint = `${cohortMiddlewarePath}cohort-stats/check-overlap/by-source-id/${sourceId}/by-case-control-cohort-definition-ids/${caseCohortDefinitionId}/${controlCohortDefinitionId}/filter-by-concept-id-and-value/${hareConceptId}/${selectedHare.concept_value_as_concept_id}`;
-  const reqBody = {
-    method: 'POST',
-    credentials: 'include',
-    headers,
-    body: JSON.stringify(variablesPayload),
-  };
-  const getOverlapStats = await fetch(statsEndPoint, reqBody);
-  return getOverlapStats.json();
-};
-
-// Basically a copy of fetchOverlapInfo above, but without the HARE arguments:
 export const fetchSimpleOverlapInfo = async (
   sourceId,
   cohortAId,
@@ -69,7 +13,13 @@ export const fetchSimpleOverlapInfo = async (
   outcome,
 ) => {
   const variablesPayload = {
-    variables: [...selectedCovariates, outcome],
+    variables: [...selectedCovariates, outcome,
+      // add extra filter to make sure we only count persons that have a HARE group as well:
+      {
+        variable_type: 'concept',
+        concept_id: hareConceptId,
+      }].filter(Boolean), // filter out any undefined or null items (e.g. in some
+    // scenarios "outcome" and "selectedCovariates" are still null and/or empty)
   };
   const statsEndPoint = `${cohortMiddlewarePath}cohort-stats/check-overlap/by-source-id/${sourceId}/by-cohort-definition-ids/${cohortAId}/${cohortBId}`;
   const reqBody = {
@@ -78,8 +28,12 @@ export const fetchSimpleOverlapInfo = async (
     headers,
     body: JSON.stringify(variablesPayload),
   };
-  const getOverlapStats = await fetch(statsEndPoint, reqBody);
-  return getOverlapStats.json();
+  const response = await fetch(statsEndPoint, reqBody);
+  if (!response.ok) {
+    const message = `An error has occured: ${response.status}`;
+    throw new Error(message);
+  }
+  return response.json();
 };
 
 export const fetchHistogramInfo = async (
@@ -90,7 +44,13 @@ export const fetchHistogramInfo = async (
   selectedConceptId,
 ) => {
   const variablesPayload = {
-    variables: [...selectedCovariates, outcome],
+    variables: [...selectedCovariates, outcome,
+      // add extra filter to make sure we only count persons that have a HARE group as well:
+      {
+        variable_type: 'concept',
+        concept_id: hareConceptId,
+      }].filter(Boolean), // filter out any undefined or null items (e.g. in some
+    // scenarios "outcome" and "selectedCovariates" are still null and/or empty)
   };
   const endPoint = `${cohortMiddlewarePath}histogram/by-source-id/${sourceId}/by-cohort-definition-id/${cohortId}/by-histogram-concept-id/${selectedConceptId}`;
   const reqBody = {
@@ -99,8 +59,12 @@ export const fetchHistogramInfo = async (
     headers,
     body: JSON.stringify(variablesPayload),
   };
-  const requestResponse = await fetch(endPoint, reqBody);
-  return requestResponse.json();
+  const response = await fetch(endPoint, reqBody);
+  if (!response.ok) {
+    const message = `An error has occured: ${response.status}`;
+    throw new Error(message);
+  }
+  return response.json();
 };
 
 export const fetchConceptStatsByHareSubset = async (
@@ -119,8 +83,12 @@ export const fetchConceptStatsByHareSubset = async (
     headers,
     body: JSON.stringify(variablesPayload),
   };
-  const getConceptStats = await fetch(conceptStatsEndPoint, reqBody);
-  return getConceptStats.json();
+  const response = await fetch(conceptStatsEndPoint, reqBody);
+  if (!response.ok) {
+    const message = `An error has occured: ${response.status}`;
+    throw new Error(message);
+  }
+  return response.json();
 };
 
 export const addCDFilter = (cohortId, otherCohortId, covariateArr) => {
@@ -177,14 +145,22 @@ export const fetchCovariateStats = async (
     headers,
     body: JSON.stringify(covariateIds),
   };
-  const getConceptStats = await fetch(conceptStatsEndpoint, reqBody);
-  return getConceptStats.json();
+  const response = await fetch(conceptStatsEndpoint, reqBody);
+  if (!response.ok) {
+    const message = `An error has occured: ${response.status}`;
+    throw new Error(message);
+  }
+  return response.json();
 };
 
 export const fetchCohortDefinitions = async (sourceId) => {
   const cohortEndPoint = `${cohortMiddlewarePath}cohortdefinition-stats/by-source-id/${sourceId}`;
-  const getCohortDefinitions = await fetch(cohortEndPoint);
-  return getCohortDefinitions.json();
+  const response = await fetch(cohortEndPoint);
+  if (!response.ok) {
+    const message = `An error has occured: ${response.status}`;
+    throw new Error(message);
+  }
+  return response.json();
 };
 
 export const fetchCovariates = async (sourceId) => {
@@ -198,33 +174,31 @@ export const fetchCovariates = async (sourceId) => {
     headers,
     body: JSON.stringify(allowedConceptTypes),
   };
-  const getConcepts = await fetch(conceptEndpoint, reqBody);
-  return getConcepts.json();
+  const response = await fetch(conceptEndpoint, reqBody);
+  if (!response.ok) {
+    const message = `An error has occured: ${response.status}`;
+    throw new Error(message);
+  }
+  return response.json();
 };
 
 export const fetchSources = async () => {
   const sourcesEndpoint = `${cohortMiddlewarePath}sources`;
-  const getSources = await fetch(sourcesEndpoint);
-  return getSources.json();
+  const response = await fetch(sourcesEndpoint);
+  if (!response.ok) {
+    const message = `An error has occured: ${response.status}`;
+    throw new Error(message);
+  }
+  return response.json();
 };
 
 export const useSourceFetch = () => {
   const [loading, setLoading] = useState(true);
   const [sourceId, setSourceId] = useState(undefined);
-  const getSources = () => {
-    // do wts login and fetch sources on initialization
-    fetchWithCreds({
-      path: `${wtsPath}connected`,
-      method: 'GET',
-    }).then((res) => {
-      if (res.status !== 200) {
-        window.location.href = `${wtsPath}authorization_url?redirect=${window.location.pathname}`;
-      } else {
-        fetchSources().then((data) => {
-          setSourceId(data.sources[0].source_id);
-          setLoading(false);
-        });
-      }
+  const getSources = () => { // fetch sources on initialization
+    fetchSources().then((data) => {
+      setSourceId(data.sources[0].source_id);
+      setLoading(false);
     });
   };
   useEffect(() => {
@@ -237,6 +211,7 @@ export const queryConfig = {
   refetchOnMount: false,
   refetchOnWindowFocus: false,
   refetchOnReconnect: false,
+  retry: false,
 };
 
 export const getAllHareItems = (

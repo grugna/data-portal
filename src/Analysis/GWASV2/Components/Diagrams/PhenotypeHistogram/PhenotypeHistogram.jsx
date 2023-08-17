@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useQuery } from 'react-query';
 import { Spin } from 'antd';
@@ -8,8 +8,11 @@ import {
 } from '../../../Utils/cohortMiddlewareApi';
 import Histogram from './Histogram';
 import { useSourceContext } from '../../../Utils/Source';
+import ACTIONS from '../../../Utils/StateManagement/Actions';
+import { MESSAGES } from '../../../Utils/constants';
 
 const PhenotypeHistogram = ({
+  dispatch,
   selectedStudyPopulationCohort,
   selectedCovariates,
   outcome,
@@ -36,17 +39,29 @@ const PhenotypeHistogram = ({
     queryConfig,
   );
 
+  useEffect(() => {
+    // Validate and give error message if there is no data:
+    if (data?.bins === null) {
+      dispatch({
+        type: ACTIONS.ADD_MESSAGE,
+        payload: MESSAGES.NO_BINS_ERROR,
+      });
+    } else {
+      dispatch({
+        type: ACTIONS.DELETE_MESSAGE,
+        payload: MESSAGES.NO_BINS_ERROR,
+      });
+    }
+  }, [data]);
+
   if (status === 'error') {
     return <React.Fragment>Error getting data for diagram</React.Fragment>;
   }
   if (status === 'loading') {
-    return <React.Fragment>Fetching histogram data... <Spin /></React.Fragment>;
-  }
-  if (data.bins === null) {
     return (
-      <React.Fragment>None of the persons in the (remaining) population
-      have a value for [{selectedContinuousItem.concept_name}]
-      </React.Fragment>
+      <div className='histrogram-loading'>
+        Fetching histogram data... <Spin />
+      </div>
     );
   }
   const histogramArgs = {
@@ -61,6 +76,7 @@ const PhenotypeHistogram = ({
 };
 
 PhenotypeHistogram.propTypes = {
+  dispatch: PropTypes.func.isRequired,
   selectedStudyPopulationCohort: PropTypes.object.isRequired,
   selectedCovariates: PropTypes.array,
   outcome: PropTypes.object,

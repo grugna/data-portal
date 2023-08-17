@@ -73,7 +73,7 @@ const Covariates = ({ selected, handleSelect }) => {
 
   if (covariates?.status === 'success') {
     return (
-      <React.Fragment>
+      <div data-tour='select-concept'>
         <SearchBar
           searchTerm={searchTerm}
           handleSearch={handleSearch}
@@ -81,6 +81,7 @@ const Covariates = ({ selected, handleSelect }) => {
         />
         <Table
           className='GWASUI-table1'
+          data-tour='concept-table'
           rowKey='concept_id'
           size='middle'
           pagination={{
@@ -88,11 +89,16 @@ const Covariates = ({ selected, handleSelect }) => {
             showSizeChanger: true,
             pageSizeOptions: ['10', '20', '50', '100', '500'],
           }}
+          onRow={(selectedRow) => ({
+            onClick: () => {
+              handleSelect(selectedRow);
+            },
+          })}
           rowSelection={covariateSelection()}
           columns={covariateTableConfig}
           dataSource={displayedCovariates}
         />
-      </React.Fragment>
+      </div>
     );
   }
   return <React.Fragment />;

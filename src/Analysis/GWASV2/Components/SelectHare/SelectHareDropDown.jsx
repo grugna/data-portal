@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useQueries } from 'react-query';
-// import Dropdown from '@gen3/ui-component/dist/components/Dropdown';
 import { Spin, Select } from 'antd';
 import {
   fetchConceptStatsByHareSubset,
@@ -138,10 +137,10 @@ const SelectHareDropDown = ({
     });
   };
 
-  if (hareResults.some((status) => status === 'loading')) {
+  if (hareResults.some((hareResult) => hareResult.status === 'loading')) {
     return <Spin />;
   }
-  if (hareResults.some((status) => status === 'error')) {
+  if (hareResults.some((hareResult) => hareResult.status === 'error')) {
     return <React.Fragment>error</React.Fragment>;
   }
   return (

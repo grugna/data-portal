@@ -11,6 +11,9 @@ const ACTIONS = {
   UPDATE_NUM_PCS: 'updateNumPCs',
   UPDATE_SELECTED_HARE: 'updateSelectedHare',
   UPDATE_FINAL_POPULATION_SIZES: 'updateFinalPopulationSizes',
+  SET_SELECTION_MODE: 'setSelectionMode',
+  ADD_MESSAGE: 'addMessage',
+  DELETE_MESSAGE: 'deleteMessage',
 };
 
 export default ACTIONS;
