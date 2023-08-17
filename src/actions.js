@@ -42,6 +42,15 @@ const getJsonOrText = (path, response, useCache, method = 'GET') => response.tex
           if (useCache && method === 'GET' && response.status === 200) {
             fetchCache[path] = textData;
           }
+          const pushAfterCreds = localStorage.getItem('pushAfterCreds');
+          if (pushAfterCreds === 'true'){
+            localStorage.removeItem('pushAfterCreds')
+            if (window.location.pathname.includes('/dev.html')) {
+              window.location.href = `${window.location.origin}/dev.html/explorer`
+            } else {
+              window.location.href = `${window.location.origin}/explorer`
+            }
+          }
         } catch (e) {
           // # do nothing
         }
@@ -55,6 +64,11 @@ let pendingRequest = null;
 export const fetchCreds = (opts) => {
   if (pendingRequest) {
     return pendingRequest;
+  }
+  const fenceJwt = localStorage.getItem('fenceJwt');
+  if (fenceJwt) {
+      headers['Authorization'] = `Bearer ${fenceJwt}`;
+      localStorage.removeItem('fenceJwt')
   }
   const { path = `${userAPIPath}user/`, method = 'GET', dispatch } = opts;
   const request = {
@@ -93,12 +107,17 @@ export const fetchCreds = (opts) => {
  * @param {path,method=GET,body=null,customHeaders?, dispatch?, useCache?} opts
  * @return Promise<{response,data,status,headers}> or Promise<{data,status}> if useCache specified
  */
-export const fetchWithCreds = (opts) => {
+ export const fetchWithCreds = (opts) => {
   const {
     path, method = 'GET', body = null, customHeaders, dispatch, useCache,
   } = opts;
   if (useCache && (method === 'GET') && fetchCache[path]) {
     return Promise.resolve({ status: 200, data: JSON.parse(fetchCache[path]) });
+  }
+  const fenceJwt = localStorage.getItem('fenceJwt');
+  if (fenceJwt) {
+      headers['Authorization'] = `Bearer ${fenceJwt}`;
+      localStorage.removeItem('fenceJwt')
   }
   const request = {
     credentials: 'include',
@@ -300,9 +319,9 @@ export const logoutAPI = (displayAuthPopup = false) => (dispatch) => {
           },
         });
       } else if (document.location.pathname.includes('/dev.html')) {
-        document.location.replace(`${response.url}dev.html`);
+        document.location.replace(`${window.location.origin}/dev.html/login`);
       } else {
-        document.location.replace(response.url);
+        document.location.replace(`${window.location.origin}/login`);
       }
     });
 };
