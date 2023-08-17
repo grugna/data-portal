@@ -1,2 +1,2 @@
-export const portalVersion = '0.5.0-55-gd243da8';
-export const portalCommit = '';
+export const portalCommit = "acb6e2958f89fc6029dee9bfea6ff53c43c57fb4";
+export const portalVersion ="acb6e29";
