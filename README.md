@@ -1,6 +1,6 @@
-# Windmill data portal
+# WISEcode for Science Windmill Portal
 
-A generic data portal that supports some basic interaction with Gen3 services like [peregrine](https://github.com/uc-cdis/peregrine), [sheepdog](https://github.com/uc-cdis/sheepdog) and [fence](https://github.com/uc-cdis/fence).
+A generic data portal that supports some basic interaction with WISEcode for Science services like [peregrine](https://github.com/uc-cdis/peregrine), [sheepdog](https://github.com/uc-cdis/sheepdog) and [fence](https://github.com/uc-cdis/fence).
 
 ## Get Started
 
@@ -347,3 +347,4 @@ We use JEST and enzyme for unit testing frontend components in this project.
 - `npm run test` Will run JEST tests for all the tests found in the complete project.
 - `npm run test SUBFOLDER_RELATIVE_PATH` will only consider the part of the project starting at the given subfolder when looking for tests to run.
   - e.g. `npm run test src/Analysis/GWASV2`
+

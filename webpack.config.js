@@ -97,7 +97,7 @@ const plugins = [
     },
   }),
   new HtmlWebpackPlugin({
-    title: configFile.components.appName || 'Generic Data Commons',
+    title: configFile.components.appName || 'WISEcode for Science',
     metaDescription: configFile.components.metaDescription || '',
     basename: pathPrefix,
     cssVersion: getCSSVersion(),

@@ -183,23 +183,25 @@ class ExplorerTable extends React.Component {
   buildNestedArrayFieldColumnConfigs = (nestedArrayFieldNames) => {
     const nestedArrayFieldColumnConfigs = {};
     Object.keys(nestedArrayFieldNames).forEach((key) => {
-      if (!nestedArrayFieldColumnConfigs[key]) {
-        nestedArrayFieldColumnConfigs[key] = [];
+      if (key === 'measurement_tot') {
+        if (!nestedArrayFieldColumnConfigs[key]) {
+          nestedArrayFieldColumnConfigs[key] = [];
+        }
+        const firstLevelColumns = nestedArrayFieldNames[key].map((field) => this.buildColumnConfig(`${key}.${field}`, true, false));
+        const firstLevelColumnsConfig = [];
+        firstLevelColumnsConfig.push({
+          Header: key,
+          columns: firstLevelColumns,
+        });
+        const secondLevelColumns = nestedArrayFieldNames[key].map((field) => this.buildColumnConfig(`${key}.${field}`, true, true));
+        const secondLevelColumnsConfig = [];
+        secondLevelColumnsConfig.push({
+          Header: key,
+          columns: secondLevelColumns,
+        });
+        nestedArrayFieldColumnConfigs[key].push(firstLevelColumnsConfig);
+        nestedArrayFieldColumnConfigs[key].push(secondLevelColumnsConfig);
       }
-      const firstLevelColumns = nestedArrayFieldNames[key].map((field) => this.buildColumnConfig(`${key}.${field}`, true, false));
-      const firstLevelColumnsConfig = [];
-      firstLevelColumnsConfig.push({
-        Header: key,
-        columns: firstLevelColumns,
-      });
-      const secondLevelColumns = nestedArrayFieldNames[key].map((field) => this.buildColumnConfig(`${key}.${field}`, true, true));
-      const secondLevelColumnsConfig = [];
-      secondLevelColumnsConfig.push({
-        Header: key,
-        columns: secondLevelColumns,
-      });
-      nestedArrayFieldColumnConfigs[key].push(firstLevelColumnsConfig);
-      nestedArrayFieldColumnConfigs[key].push(secondLevelColumnsConfig);
     });
     return nestedArrayFieldColumnConfigs;
   }
@@ -347,25 +349,31 @@ class ExplorerTable extends React.Component {
       nestedArrayFieldColumnConfigs = this.buildNestedArrayFieldColumnConfigs(nestedArrayFieldNames);
       // this is the subComponent of the two-level nested tables
       subComponent = (row) => Object.keys(nestedArrayFieldColumnConfigs).map((key) => {
-        const rowData = (this.props.isLocked || !this.props.rawData)
+        var rowData = (this.props.isLocked || !this.props.rawData)
           ? [] : _.slice(this.props.rawData, row.index, row.index + 1);
+        
+        if (rowData.length > 0) {
+          rowData = rowData[0]
+          if ("measurement_tot" in rowData) {
+            rowData = rowData["measurement_tot"]
+          }
+          else{
+            rowData = []
+          }
+        }
+        else {
+          rowData = []
+        }
+
+        const col_luca = [{"Header":"measurement_tot","columns":[{"Header":"Panel","id":"panel", "accessor":"panel", "maxWidth":600,"width":"70vw"},{"Header":"Nutrient Category","id":"nutrient_category", "accessor":"nutrient_category","maxWidth":600,"width":"70vw"},{"Header":"Nutrient Name","id":"nutrient_name", "accessor":"nutrient_name","maxWidth":600,"width":"70vw"},{"Header":"Quantity","id":"quantity", "accessor":"quantity","maxWidth":600,"width":"70vw"},{"Header":"Unit","id":"unit", "accessor":"unit","maxWidth":600,"width":"70vw"},{"Header":"Sample Size","id":"sample_size", "accessor":"sample_size","maxWidth":600,"width":"70vw"}]}]
+        
         return (
           <div className='explorer-nested-table' key={key}>
             <ReactTable
               data={(this.props.isLocked || !rowData) ? [] : rowData}
-              columns={nestedArrayFieldColumnConfigs[key][0]}
-              defaultPageSize={1}
-              showPagination={false}
-              SubComponent={() => (
-                <div className='explorer-nested-table'>
-                  <ReactTable
-                    data={(this.props.isLocked || !rowData) ? [] : rowData}
-                    columns={nestedArrayFieldColumnConfigs[key][1]}
-                    defaultPageSize={1}
-                    showPagination={false}
-                  />
-                </div>
-              )}
+              columns={col_luca}
+              defaultPageSize={10}
+              // showPagination={false}
             />
           </div>
         );
@@ -386,7 +394,6 @@ class ExplorerTable extends React.Component {
     } else if (totalCount < end && totalCount >= 2) {
       explorerTableCaption = `Showing ${start.toLocaleString()} - ${totalCountDisplay} of ${totalCountDisplay} ${pluralize(this.props.guppyConfig.dataType)}`;
     }
-
     return (
       <div className={`explorer-table ${this.props.className}`} id='guppy-explorer-table-of-records'>
         {(this.props.isLocked) ? <React.Fragment />
