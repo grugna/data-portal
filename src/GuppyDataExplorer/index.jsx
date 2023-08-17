@@ -121,6 +121,7 @@ class Explorer extends React.Component {
           <GuppyDataExplorer
             adminAppliedPreFilters={explorerConfig[this.state.tab].adminAppliedPreFilters}
             chartConfig={explorerConfig[this.state.tab].charts}
+            chartTabConfig={explorerConfig[this.state.tab].charts_tabs}
             filterConfig={explorerConfig[this.state.tab].filters}
             tableConfig={explorerConfig[this.state.tab].table}
             heatMapConfig={heatMapConfig}

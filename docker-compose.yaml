@@ -1,0 +1,27 @@
+version: '3'
+services:
+  wc4s-windmill:
+    build: .
+    container_name: wc4s-windmill
+    networks:
+      - devnet
+    volumes:
+      - ../wisecode/portal/data/config/gitops.json:/data-portal/data/config/gitops.json
+      - ../wisecode/portal/custom/logo/gitops-logo.png:/data-portal/custom/logo/gitops-logo.png
+      - ../wisecode/portal/custom/createdby/gitops.png:/data-portal/custom/createdby/gitops.png
+    environment:
+      - NODE_ENV=dev
+      - HOSTNAME=science-dev.wisecode.ai
+      #- MOCK_STORE=true
+      - APP=dev
+#      - GDC_SUBPATH=http://revproxy-service/api/v0/submission/
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost"]
+      interval: 60s
+      timeout: 5s
+      retries: 10
+    ports:
+      - 443:443
+
+networks:
+  devnet:

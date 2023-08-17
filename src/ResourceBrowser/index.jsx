@@ -8,6 +8,7 @@ import './ResourceBrowser.css';
 
 class ResourceBrowser extends React.Component {
   render() {
+    console.log(config.resourceBrowser)
     const settings = config.resourceBrowser;
     if (!settings) {
       return <div />;
