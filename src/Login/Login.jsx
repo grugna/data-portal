@@ -5,7 +5,7 @@ import Select, { createFilter } from 'react-select';
 import Button from '@gen3/ui-component/dist/components/Button';
 import { basename } from '../localconf';
 import { components } from '../params';
-
+import LoginForm from './LoginForm';
 import './Login.less';
 
 const getInitialState = (height) => ({ height });
@@ -47,7 +47,6 @@ class Login extends React.Component {
   // updateDimensions() {
   //   this.setState({ height: window.innerHeight - 221 });
   // }
-
   render() {
     const { location } = this.props; // this is the react-router "location"
     // compose next according to location.from
@@ -173,47 +172,7 @@ class Login extends React.Component {
 
     return (
       <div className='login-page'>
-        {
-          (displaySideBoxImages)
-            ? <div className='login-page__side-box login-page__side-box--left' style={customImageStyle} />
-            : null
-        }
-        <div className='login-page__central-content'>
-          <div className='h1-typo login-page__title'>
-            {this.props.data.title}
-          </div>
-          <div className='high-light login-page__sub-title'>
-            {this.props.data.subTitle}
-          </div>
-          <hr className='login-page__separator' />
-          <div className='body-typo'>{this.props.data.text}</div>
-          {loginComponent}
-          <div>
-            {this.props.data.contact}
-            {(this.props.data.email && !this.props.data.contact_link)
-              && (
-                <a href={`mailto:${this.props.data.email}`}>
-                  {this.props.data.email}
-                </a>
-              )}
-            {
-              this.props.data.contact_link
-              && (
-                <a href={this.props.data.contact_link.href}>
-                  {this.props.data.contact_link.text
-                    ? this.props.data.contact_link.text
-                    : this.props.data.contact_link.href}
-                </a>
-              )
-            }
-            {'.'}
-          </div>
-        </div>
-        {
-          (displaySideBoxImages)
-            ? <div className='login-page__side-box login-page__side-box--left' style={customImageStyle} />
-            : null
-        }
+        <LoginForm/>
       </div>
     );
   }

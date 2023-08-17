@@ -11,8 +11,8 @@ class Footer extends Component {
     if (this.props.hidden) {
       return (<React.Fragment />);
     }
-    if (this.props.externalURL) {
-      return <ExternalFooter url={this.props.externalURL} />;
+    if (this.props.location.pathname == "/login"){
+      return <></>
     }
     return (
       <footer className='footer-container'>
