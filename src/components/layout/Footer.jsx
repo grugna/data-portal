@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { basename } from '../../localconf';
 import './Footer.less';
+import ExternalFooter from './ExternalFooter';
 
 const cleanBasename = basename.replace(/(dev.html$)/, '');
 
@@ -114,6 +115,7 @@ Footer.propTypes = {
     footerHref: PropTypes.string,
     text: PropTypes.string,
   }),
+  externalURL: PropTypes.string,
 };
 
 Footer.defaultProps = {
@@ -123,6 +125,7 @@ Footer.defaultProps = {
   portalVersion: 'Unknown',
   links: [],
   privacyPolicy: null,
+  externalURL: null,
 };
 
 export default Footer;

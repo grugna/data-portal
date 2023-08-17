@@ -144,6 +144,7 @@ Below is an example, with inline comments describing what each JSON block config
       "expireUseMsgDays" : optional; 0, // the number of days to keep cookie once the "Accept" button is clicked, the default is 0 which sets the cookie to be a browser session cookie
     },
     "footer": {
+      "externalURL": "/external/footer" // iframe link to raw html from another source (ie frontend framework) to pull a footer from
       "links": [
         {
           "text": "Link title",
@@ -577,25 +578,27 @@ Below is an example, with inline comments describing what each JSON block config
     "detailView": {
       "headerField": "project_title", // field from which to pull detail view title
       "tabs": [
-        "tabName": "Study",
-        "groups": [
-          {
-            "header": "Study Description Summary", // subheading above a group of fields, optional
-            "fields": [
-              {
-              "header": "Study Description Summary",
+        {
+          "tabName": "Study",
+          "groups": [
+            {
+              "header": "Study Description Summary", // subheading above a group of fields, optional
               "fields": [
                 {
-                  "type": "block",
-                  "sourceField": "study_description_summary"
+                  "header": "Study Description Summary",
+                  "fields": [
+                    {
+                      "type": "block",
+                      "sourceField": "study_description_summary"
+                    }
+                  ]
                 }
               ]
-              }
-            ]
-          }
-        ]
+            }
+          ]
+        }
       ]
-    }
+    },
     "minimalFieldMapping": { // maps
       "tagsListFieldName": "tags", // required; the field which contains the list of tags (format: [{name: string, category: string}] )
       "authzField": "authz", // optional if features.authorization.enabled is false, otherwise required
@@ -656,6 +659,7 @@ Below is an example, with inline comments describing what each JSON block config
   },
   "connectSrcCSPWhitelist": [ // optional; Array of urls to add to the header CSP (Content-Security-Policy) connect-src 'self'
     "https://example.s3.amazonaws.com" // full url to be added
-  ]
+  ],
+  "stridesPortalURL": "https://strides-admin-portal.org" // optional; If configured, will display a link on the workspace page which can direct user to the STRIDES admin portal
 }
 ```
