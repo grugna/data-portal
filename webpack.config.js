@@ -75,6 +75,7 @@ const plugins = [
   }),
   new HtmlWebpackPlugin({
     title: configFile.components.appName || 'WISEcode for Science',
+    metaDescription: configFile.components.metaDescription || '',
     basename: pathPrefix,
     template: 'src/index.ejs',
     connect_src: (function () {
