@@ -42,6 +42,7 @@ import Workspace from './Workspace';
 import ReduxWorkspaceShutdownPopup from './Popup/ReduxWorkspaceShutdownPopup';
 import ReduxWorkspaceShutdownBanner from './Popup/ReduxWorkspaceShutdownBanner';
 import ErrorWorkspacePlaceholder from './Workspace/ErrorWorkspacePlaceholder';
+import { QSJWTStorage } from './Login/QSJWTStorage';
 
 // monitor user's session
 sessionMonitor.start();

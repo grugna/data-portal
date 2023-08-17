@@ -39,6 +39,8 @@ import WorkspaceOption from './WorkspaceOption';
 import WorkspaceLogin from './WorkspaceLogin';
 import sessionMonitor from '../SessionMonitor';
 import workspaceSessionMonitor from './WorkspaceSessionMonitor';
+import ResourceBrowser from '../ResourceBrowser/index';
+import { enableResourceBrowser } from '../localconf';
 
 const { Step } = Steps;
 const { Panel } = Collapse;
@@ -716,6 +718,12 @@ class Workspace extends React.Component {
                       })
                     }
                   </div>
+                  {enableResourceBrowser
+                        ? (
+                            <ResourceBrowser/>
+                          )
+                         : null
+                    }
                   {
                     (!showExternalLoginsOnProfile)
                     && (
