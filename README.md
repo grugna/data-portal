@@ -1,6 +1,6 @@
-# Windmill data portal
+# WISEcode for Science Windmill Portal
 
-A generic data portal that supports some basic interaction with Gen3 services like [peregrine](https://github.com/uc-cdis/peregrine), [sheepdog](https://github.com/uc-cdis/sheepdog) and [fence](https://github.com/uc-cdis/fence).
+A generic data portal that supports some basic interaction with WISEcode for Science services like [peregrine](https://github.com/uc-cdis/peregrine), [sheepdog](https://github.com/uc-cdis/sheepdog) and [fence](https://github.com/uc-cdis/fence).
 
 ## Get Started
 
@@ -332,3 +332,4 @@ We use ESLint and Stylelint to lint and automatically format code.
 - `npm run eslint` Will run ESLint on the entire code base and automatically try to fix all JS and JS like files.
 - `npm run eslint-new` Will run ESLint only on newly added files in the current git branch and automatically try to fix the JS and JS like files.
 - `npm run stylelint` Will run Stylelint on all CSS and CSS-like files in the code base and automatically try to fix them.
+
