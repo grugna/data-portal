@@ -9,13 +9,12 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
-  padding: 30px 20px;
   background: var(--g3-color__white);
   border-radius: 5px;
   border: 1px solid var(--g3-color__silver);
   margin: 10px 10px;
   padding: 10px;
-  min-width: 45%;
+  min-width: calc(~'50% - 20px');
 }
 
 .external-login-option__description {
@@ -25,4 +24,9 @@
 .external-login-option__button {
   color: var(--secondary-color);
   border-color: var(--secondary-color);
+}
+
+// antd button override
+.ant-btn {
+  width: auto;
 }

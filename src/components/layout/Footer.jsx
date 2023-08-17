@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { basename } from '../../localconf';
 import './Footer.less';
+import ExternalFooter from './ExternalFooter';
+
+const cleanBasename = basename.replace(/(dev.html$)/, '');
 
 class Footer extends Component {
   render() {
@@ -53,7 +57,7 @@ class Footer extends Component {
                 >
                   <img
                     className='footer__img'
-                    src={logoObj.src}
+                    src={(cleanBasename === '/') ? logoObj.src : `${cleanBasename}${logoObj.src}`}
                     alt={logoObj.alt}
                     style={{ height: logoObj.height ? logoObj.height : 60 }}
                   />
@@ -96,7 +100,7 @@ const LogoObject = PropTypes.shape({
 });
 
 const FooterLink = PropTypes.shape({
-  text: PropTypes.string.isRequired,
+  text: PropTypes.string,
   href: PropTypes.string.isRequired,
 });
 
@@ -111,6 +115,7 @@ Footer.propTypes = {
     footerHref: PropTypes.string,
     text: PropTypes.string,
   }),
+  externalURL: PropTypes.string,
 };
 
 Footer.defaultProps = {
@@ -120,6 +125,7 @@ Footer.defaultProps = {
   portalVersion: 'Unknown',
   links: [],
   privacyPolicy: null,
+  externalURL: null,
 };
 
 export default Footer;
