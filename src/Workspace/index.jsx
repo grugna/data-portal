@@ -135,7 +135,7 @@ class Workspace extends React.Component {
       method: 'GET',
     }).then(
       ({ data }) => {
-        this.setState({ externalLoginOptions: data.providers });
+        this.setState({ externalLoginOptions: data.providers || [] });
       },
     );
   }
@@ -177,7 +177,7 @@ class Workspace extends React.Component {
         }
         return null;
       }).catch(() => 'Error');
-    if (payModels.current_pay_model) {
+    if (payModels?.current_pay_model) {
       return payModels;
     }
     return {};
@@ -342,7 +342,10 @@ class Workspace extends React.Component {
     this.getWorkspaceOptions();
     this.getExternalLoginOptions();
     this.getWorkspacePayModel().then((data) => {
-      this.checkWorkspacePayModel();
+      if (Object.keys(data).length) {
+        // only set the interval when there are pay model data
+        this.checkWorkspacePayModel();
+      }
       this.setState({
         payModel: data,
       });
