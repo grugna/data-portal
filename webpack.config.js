@@ -1,6 +1,7 @@
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
+const fs = require('fs');
 
 const basename = process.env.BASENAME || '/';
 const pathPrefix = basename.endsWith('/') ? basename.slice(0, basename.length - 1) : basename;
@@ -9,12 +10,20 @@ const app = process.env.APP || 'dev';
 const configFileName = (app === 'dev') ? 'default' : app;
 // eslint-disable-next-line import/no-dynamic-require
 const configFile = require(`./data/config/${configFileName}.json`);
-const { DAPTrackingURL } = configFile;
+const { DAPTrackingURL, gaTrackingId } = configFile;
 const scriptSrcURLs = [];
 const connectSrcURLs = [];
+const imgSrcURLs = [];
 if (DAPTrackingURL) {
   scriptSrcURLs.push(DAPTrackingURL);
   connectSrcURLs.push(DAPTrackingURL);
+}
+if (gaTrackingId?.startsWith('UA-') || gaTrackingId?.startsWith('G-')) {
+  scriptSrcURLs.push(...['https://www.google-analytics.com', 'https://ssl.google-analytics.com', 'https://www.googletagmanager.com']);
+  connectSrcURLs.push(...['https://www.google-analytics.com', 'https://*.analytics.google.com']);
+  imgSrcURLs.push('https://www.google-analytics.com');
+} else {
+  console.log('Unknown GA tag, skipping GA setup...');
 }
 if (process.env.DATA_UPLOAD_BUCKET) {
   connectSrcURLs.push(`https://${process.env.DATA_UPLOAD_BUCKET}.s3.amazonaws.com`);
@@ -25,6 +34,9 @@ if (configFile.connectSrcCSPWhitelist && configFile.connectSrcCSPWhitelist.lengt
 }
 if (configFile.featureFlags && configFile.featureFlags.discoveryUseAggMDS) {
   connectSrcURLs.push('https://dataguids.org');
+}
+if (configFile.featureFlags && configFile.featureFlags.studyRegistration) {
+  connectSrcURLs.push('https://clinicaltrials.gov');
 }
 if (process.env.DATADOG_APPLICATION_ID && process.env.DATADOG_CLIENT_TOKEN) {
   connectSrcURLs.push('https://*.logs.datadoghq.com');
@@ -41,6 +53,17 @@ if (configFile && configFile.analysisTools) {
       iFrameApplicationURLs.push(e.applicationUrl);
     }
   });
+}
+
+// returns the last modified time of the CSS file
+function getCSSVersion() {
+  const overridesCss = './src/css/themeoverrides.css';
+  if (!fs.existsSync(overridesCss)) {
+    console.warn(`${overridesCss} does not exist`);
+    return ('');
+  }
+  const stats = fs.statSync(overridesCss);
+  return (stats.mtime.getTime());
 }
 
 const plugins = [
@@ -75,9 +98,11 @@ const plugins = [
   }),
   new HtmlWebpackPlugin({
     title: configFile.components.appName || 'WISEcode for Science',
+    metaDescription: configFile.components.metaDescription || '',
     basename: pathPrefix,
+    cssVersion: getCSSVersion(),
     template: 'src/index.ejs',
-    connect_src: (function () {
+    connectSrc: ((() => {
       const rv = {};
       if (typeof process.env.FENCE_URL !== 'undefined') {
         rv[(new URL(process.env.FENCE_URL)).origin] = true;
@@ -105,9 +130,8 @@ const plugins = [
         });
       }
       return Object.keys(rv).join(' ');
-    }()),
-    dap_url: DAPTrackingURL,
-    script_src: (function () {
+    })()),
+    scriptSrc: ((() => {
       const rv = {};
       if (scriptSrcURLs.length > 0) {
         scriptSrcURLs.forEach((url) => {
@@ -115,13 +139,22 @@ const plugins = [
         });
       }
       return Object.keys(rv).join(' ');
-    }()),
+    })()),
+    imgSrc: ((() => {
+      const rv = {};
+      if (imgSrcURLs.length > 0) {
+        imgSrcURLs.forEach((url) => {
+          rv[(new URL(url)).origin] = true;
+        });
+      }
+      return Object.keys(rv).join(' ');
+    })()),
+    dapURL: DAPTrackingURL,
     hash: true,
     chunks: ['vendors~bundle', 'bundle'],
   }),
   /*
   Can do this kind of thing to deploy multi-page apps in the future ...
-
   new HtmlWebpackPlugin({
     title: "Gen3 Workspaces",
     filename: "workspaces.html",
@@ -132,6 +165,8 @@ const plugins = [
   */
   new webpack.optimize.AggressiveMergingPlugin(), // Merge chunks
 ];
+
+const allowedHosts = process.env.HOSTNAME ? [process.env.HOSTNAME] : 'auto';
 
 let optimization = {};
 let devtool = false;
@@ -223,7 +258,15 @@ module.exports = {
     compress: true,
     hot: true,
     port: 9443,
-    https: true,
+    server: 'https',
+    host: 'localhost',
+    allowedHosts,
+    client: {
+      overlay: {
+        warnings: false,
+        errors: true,
+      },
+    },
   },
   module: {
     rules: [{
@@ -238,6 +281,10 @@ module.exports = {
       exclude: /node_modules\/(?!(graphiql|graphql-language-service-parser)\/).*/,
       use: {
         loader: 'babel-loader',
+        options: {
+          presets: ['@babel/preset-env', '@babel/react'],
+          plugins: ['@babel/plugin-proposal-class-properties'],
+        },
       },
     },
     {
