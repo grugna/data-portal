@@ -766,6 +766,14 @@ Currently, in order to export a File PFB, \`enableLimitedFilePFBExport\` must be
       return typeof authResult !== 'undefined' ? authResult : true;
     }
 
+    if (buttonConfig.type === 'export-to-pfb' || buttonConfig.type === 'data') {
+      const isAdmin = this.props.user.is_admin;
+      // create arborit resource and use authResult instead
+      // const authResult = this.props.user.authz;
+      // console.log(isAdmin);
+      return typeof isAdmin !== 'undefined' ? isAdmin : false;
+    }
+
     return true;
   };
 

@@ -15,7 +15,7 @@ export const updateForm = (data) => ({
 export const receiveSubmitCert = ({ status }, history) => {
   switch (status) {
   case 201:
-    history.push('/');
+    history.push('/explorer');
     return {
       type: 'RECEIVE_CERT_SUBMIT',
     };

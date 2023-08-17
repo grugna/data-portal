@@ -5,6 +5,7 @@ import {
 } from '../localconf';
 import getReduxStore from '../reduxStore';
 import getHomepageChartProjectsList from './relayer';
+import { fetchUser } from '../actions';
 
 const updateRedux = async (projectNodeCounts) => getReduxStore().then(
   (store) => {

@@ -13,6 +13,8 @@ import {
 } from '../localconf';
 import HomepageCustomCharts from '../components/charts/HomepageCustomCharts';
 import './page.less';
+import { fetchUser } from '../actions';
+import getReduxStore from '../reduxStore';
 
 class IndexPageComponent extends React.Component {
   componentDidMount() {
@@ -21,6 +23,11 @@ class IndexPageComponent extends React.Component {
     // To do this we will need to load data from Peregrine's datasets endpoint, which
     // can be configured to be publicly accessible to logged-out users
     // (with global.public_datasets: true in manifest.json)
+    getReduxStore().then(
+        (store) => {
+            store.dispatch(fetchUser)
+        },
+    );
     if (indexPublic) {
       loadHomepageChartDataFromDatasets((res) => {
         // If Peregrine returns unauthorized, need to redirect to `/login` page.
