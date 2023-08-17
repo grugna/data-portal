@@ -57,6 +57,7 @@ const DiscoveryWithMDSBackend: React.FC<{
     searchTerm,
     accessSortDirection,
     accessFilters,
+    onAdvancedSearch: (advancedSearch: any[]) => any,
     onSearchChange: (searchTerm: string) => any,
     onTagsSelected: (selectedTags: any[]) => any,
     onAccessFilterSet: (accessFilters: { [key in AccessLevel]: boolean }) => any,
@@ -81,7 +82,7 @@ const DiscoveryWithMDSBackend: React.FC<{
       } else {
         loadStudiesFunction = loadStudiesFromMDS;
       }
-      const rawStudiesRegistered = await loadStudiesFunction();
+      const rawStudiesRegistered = await loadStudiesFunction(props.config?.features?.guidType);
       let rawStudiesUnregistered = [];
       if (isEnabled('studyRegistration')) {
         rawStudiesUnregistered = await loadStudiesFromMDS('unregistered_discovery_metadata');
@@ -176,6 +177,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  onAdvancedSearch: (advancedSearch) => dispatch({ type: 'ADVANCED_SEARCH', advancedSearch }),
   onSearchChange: (searchTerm) => dispatch({ type: 'SEARCH_TERM_SET', searchTerm }),
   onTagsSelected: (selectedTags) => dispatch({ type: 'TAGS_SELECTED', selectedTags }),
   onAccessFilterSet: (accessFilters) => dispatch({ type: 'ACCESS_FILTER_SET', accessFilters }),
