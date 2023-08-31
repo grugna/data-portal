@@ -87,7 +87,7 @@ class ExplorerFilter extends React.Component {
       // if the field is in accessibleFieldObject, add "accessible=false"
       // to those items which are unaccessible
       const accessibleValues = this.props.accessibleFieldObject[field];
-      const newHistogram = aggsData[field].histogram
+      const newHistogram = aggsData[field].asTextHistogram
         .filter(({ key }) => {
           const accessible = accessibleValues.includes(key);
           switch (this.state.selectedAccessFilter) {
