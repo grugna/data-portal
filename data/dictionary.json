@@ -2372,6 +2372,267 @@
       }
     }
   },
+  "code": {
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "additionalProperties": false,
+    "category": "food",
+    "description": "Collection of codes for foods based on ingredient and nutrient composition",
+    "id": "code",
+    "links": [
+      {
+        "backref": "codes",
+        "label": "consists_of",
+        "multiplicity": "many_to_one",
+        "name": "foods",
+        "required": true,
+        "target_type": "food"
+      }
+    ],
+    "namespace": null,
+    "program": "*",
+    "project": "*",
+    "properties": {
+      "calorie_quality_code": {
+        "description": "Calorie Quality",
+        "type": [
+          "number"
+        ]
+      },
+      "created_datetime": {
+        "oneOf": [
+          {
+            "format": "date-time",
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "term": {
+          "description": "A combination of date and time of day in the form [-]CCYY-MM-DDThh:mm:ss[Z|(+|-)hh:mm]\n"
+        }
+      },
+      "eaa9_protein_score": {
+        "description": "Protein Quality score calculated based on Essential Amino Acids (EAA) content in food",
+        "type": [
+          "number"
+        ]
+      },
+      "excellent_code": {
+        "description": "Excellent code",
+        "type": [
+          "number"
+        ]
+      },
+      "foods": {
+        "anyOf": [
+          {
+            "items": {
+              "additionalProperties": true,
+              "maxItems": 1,
+              "minItems": 1,
+              "properties": {
+                "id": {
+                  "pattern": "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$",
+                  "term": {
+                    "description": "A 128-bit identifier. Depending on the mechanism used to generate it, it is either guaranteed to be different from all other UUIDs/GUIDs generated until 3400 AD or extremely likely to be different. Its relatively small size lends itself well to sorting, ordering, and hashing of all sorts, storing in databases, simple allocation, and ease of programming in general.\n",
+                    "termDef": {
+                      "cde_id": "C54100",
+                      "cde_version": null,
+                      "source": "NCIt",
+                      "term": "Universally Unique Identifier",
+                      "term_url": "https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100"
+                    }
+                  },
+                  "type": "string"
+                },
+                "submitter_id": {
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            },
+            "type": "array"
+          },
+          {
+            "additionalProperties": true,
+            "properties": {
+              "id": {
+                "pattern": "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$",
+                "term": {
+                  "description": "A 128-bit identifier. Depending on the mechanism used to generate it, it is either guaranteed to be different from all other UUIDs/GUIDs generated until 3400 AD or extremely likely to be different. Its relatively small size lends itself well to sorting, ordering, and hashing of all sorts, storing in databases, simple allocation, and ease of programming in general.\n",
+                  "termDef": {
+                    "cde_id": "C54100",
+                    "cde_version": null,
+                    "source": "NCIt",
+                    "term": "Universally Unique Identifier",
+                    "term_url": "https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100"
+                  }
+                },
+                "type": "string"
+              },
+              "submitter_id": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          }
+        ]
+      },
+      "id": {
+        "pattern": "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$",
+        "systemAlias": "node_id",
+        "term": {
+          "description": "A 128-bit identifier. Depending on the mechanism used to generate it, it is either guaranteed to be different from all other UUIDs/GUIDs generated until 3400 AD or extremely likely to be different. Its relatively small size lends itself well to sorting, ordering, and hashing of all sorts, storing in databases, simple allocation, and ease of programming in general.\n",
+          "termDef": {
+            "cde_id": "C54100",
+            "cde_version": null,
+            "source": "NCIt",
+            "term": "Universally Unique Identifier",
+            "term_url": "https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100"
+          }
+        },
+        "type": "string"
+      },
+      "immunity_code": {
+        "description": "Immunity Code",
+        "type": [
+          "number"
+        ]
+      },
+      "inflammation_code": {
+        "description": "Inflammation code",
+        "type": [
+          "number"
+        ]
+      },
+      "omega6_omega3_ratio": {
+        "description": "Omega-6 to Omega-3 Ratio",
+        "type": [
+          "number"
+        ]
+      },
+      "potassium_sodium_ratio": {
+        "description": "Potassium-Sodium Ratio",
+        "type": [
+          "number"
+        ]
+      },
+      "project_id": {
+        "term": {
+          "description": "Unique ID for any specific defined piece of work that is undertaken or attempted to meet a single requirement.\n"
+        },
+        "type": "string"
+      },
+      "state": {
+        "default": "validated",
+        "downloadable": [
+          "uploaded",
+          "md5summed",
+          "validating",
+          "validated",
+          "error",
+          "invalid",
+          "released"
+        ],
+        "oneOf": [
+          {
+            "enum": [
+              "uploading",
+              "uploaded",
+              "md5summing",
+              "md5summed",
+              "validating",
+              "error",
+              "invalid",
+              "suppressed",
+              "redacted",
+              "live"
+            ]
+          },
+          {
+            "enum": [
+              "validated",
+              "submitted",
+              "released"
+            ]
+          }
+        ],
+        "public": [
+          "live"
+        ],
+        "term": {
+          "description": "The current state of the object.\n"
+        }
+      },
+      "submitter_id": {
+        "type": [
+          "string"
+        ]
+      },
+      "sugar_load": {
+        "description": "Sugar Load",
+        "type": [
+          "number"
+        ]
+      },
+      "toxic_code": {
+        "description": "Toxic code",
+        "type": [
+          "number"
+        ]
+      },
+      "type": {
+        "enum": [
+          "code"
+        ]
+      },
+      "ultraprocessed_code": {
+        "description": "Ultra-processed code",
+        "type": [
+          "number"
+        ]
+      },
+      "updated_datetime": {
+        "oneOf": [
+          {
+            "format": "date-time",
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "term": {
+          "description": "A combination of date and time of day in the form [-]CCYY-MM-DDThh:mm:ss[Z|(+|-)hh:mm]\n"
+        }
+      }
+    },
+    "required": [
+      "submitter_id",
+      "foods"
+    ],
+    "submittable": true,
+    "systemProperties": [
+      "id",
+      "project_id",
+      "state",
+      "created_datetime",
+      "updated_datetime"
+    ],
+    "title": "Codes",
+    "type": "object",
+    "uniqueKeys": [
+      [
+        "id"
+      ],
+      [
+        "project_id",
+        "submitter_id"
+      ]
+    ],
+    "validators": null
+  },
   "core_metadata_collection": {
     "$schema": "http://json-schema.org/draft-04/schema#",
     "additionalProperties": false,
@@ -2836,17 +3097,16 @@
     "project": "*",
     "properties": {
       "allergen_category": {
-        "description": "Ingredient category",
+        "description": "Indicates if the food substance has a known allergen",
         "enum": [
           "Eggs",
           "Fish",
-          "Milk",
+          "Dairy",
           "Peanuts",
           "Nuts (Tree Nuts)",
-          "Soya",
-          "Cereals Containing Gluten",
-          "Molluscs",
-          "Crustaceans",
+          "Soy",
+          "Wheat",
+          "Shellfish",
           "Celery",
           "Lupin",
           "Mustard",
@@ -2857,30 +3117,6 @@
       "alternate_serving_size": {
         "description": "Household serving size",
         "type": "string"
-      },
-      "attributes": {
-        "description": "Attributes",
-        "items": {
-          "enum": [
-            "Diabetes Friendly",
-            "High Fiber",
-            "High Protein",
-            "Low Sodium",
-            "Heart Healthy",
-            "Immunity-healthy",
-            "Keto-friendly",
-            "Low Carbohydrates",
-            "Low Cholesterol",
-            "Low Fat",
-            "Low Saturated Fat",
-            "Low Sugar",
-            "Pescatarian",
-            "Tide me over",
-            "Vegan",
-            "Vegetarian"
-          ]
-        },
-        "type": "array"
       },
       "brand": {
         "description": "Brand name",
@@ -2914,6 +3150,31 @@
         "type": [
           "string"
         ]
+      },
+      "diet_style": {
+        "description": "Diet Style",
+        "items": {
+          "enum": [
+            "Diabetes Friendly",
+            "High Fiber",
+            "High Protein",
+            "Low Sodium",
+            "Heart Healthy",
+            "Immunity-healthy",
+            "Keto-friendly",
+            "Low Carbohydrates",
+            "Low Cholesterol",
+            "Low Fat",
+            "Low Saturated Fat",
+            "Low Sugar",
+            "Pescatarian",
+            "Tide me over",
+            "Vegan",
+            "Vegetarian",
+            "Gluten Free"
+          ]
+        },
+        "type": "array"
       },
       "fdc_id": {
         "description": "Food ID in the Food Data Central repository",
@@ -2958,6 +3219,22 @@
           "Food",
           "Beverage"
         ]
+      },
+      "hi_low_attributes": {
+        "description": "High & Low",
+        "items": {
+          "enum": [
+            "High Fiber",
+            "High Protein",
+            "Low Sodium",
+            "Low Carbohydrates",
+            "Low Cholesterol",
+            "Low Fat",
+            "Low Saturated Fat",
+            "Low Sugar"
+          ]
+        },
+        "type": "array"
       },
       "id": {
         "pattern": "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$",
@@ -3138,19 +3415,6 @@
         "term": {
           "description": "A combination of date and time of day in the form [-]CCYY-MM-DDThh:mm:ss[Z|(+|-)hh:mm]\n"
         }
-      },
-      "wc_grp_id": {
-        "description": "WC Group Id",
-        "type": [
-          "number",
-          "null"
-        ]
-      },
-      "wc_name": {
-        "description": "Standardized concept for the food substance obtained after pre-processing and applying WISEcode food ontology",
-        "type": [
-          "string"
-        ]
       }
     },
     "required": [
@@ -3200,7 +3464,7 @@
     "project": "*",
     "properties": {
       "allergen_category": {
-        "description": "Indicates if the food substance has a known allergen",
+        "description": "Ingredient allergen category",
         "enum": [
           "Eggs",
           "Fish",
@@ -3479,28 +3743,200 @@
     ],
     "validators": null
   },
-  "measurement": {
+  "metaschema": {
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "allOf": [
+      {
+        "$ref": "http://json-schema.org/draft-04/schema#"
+      }
+    ],
+    "definitions": {
+      "link": {
+        "additionalProperties": false,
+        "properties": {
+          "backref": {
+            "$ref": "#/field"
+          },
+          "label": {
+            "$ref": "#/field"
+          },
+          "multiplicity": {
+            "enum": [
+              "one_to_one",
+              "one_to_many",
+              "many_to_one",
+              "many_to_many"
+            ],
+            "type": "string"
+          },
+          "name": {
+            "$ref": "#/field"
+          },
+          "required": {
+            "type": "boolean"
+          },
+          "target_type": {
+            "$ref": "#/field"
+          }
+        },
+        "required": [
+          "name",
+          "target_type",
+          "backref",
+          "label",
+          "multiplicity",
+          "required"
+        ],
+        "type": "object"
+      },
+      "link_subgroup": {
+        "properties": {
+          "exclusive": {
+            "type": "boolean"
+          },
+          "required": {
+            "type": "boolean"
+          },
+          "subgroup": {
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/link"
+                },
+                {
+                  "$ref": "#/definitions/link_subgroup"
+                }
+              ]
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "exclusive",
+          "required",
+          "subgroup"
+        ]
+      },
+      "validator_def": {
+        "properties": {
+          "link_to_type": {
+            "type": "string"
+          },
+          "multiplicity": {
+            "enum": [
+              "one_to_one",
+              "one_to_many",
+              "many_to_one",
+              "many_to_many"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "property",
+          "function"
+        ],
+        "title": "Define a validator to be used on a property",
+        "type": "object"
+      }
+    },
+    "field": {
+      "pattern": "^[_a-zA-Z0-9]*$",
+      "type": "string"
+    },
+    "id": "metaschema",
+    "properties": {
+      "category": {
+        "$ref": "#/field",
+        "enum": [
+          "administrative",
+          "analysis",
+          "biospecimen",
+          "clinical",
+          "data",
+          "data_bundle",
+          "data_file",
+          "index_file",
+          "metadata_file",
+          "notation",
+          "qc_bundle",
+          "TBD"
+        ]
+      },
+      "links": {
+        "items": {
+          "oneOf": [
+            {
+              "$ref": "#/definitions/link"
+            },
+            {
+              "$ref": "#/definitions/link_subgroup"
+            }
+          ]
+        },
+        "title": "Define a link to other GDC entities",
+        "type": "array"
+      },
+      "properties": {
+        "additionalProperties": false,
+        "patternProperties": {
+          "^[_a-zA-Z0-9]*$": {
+            "type": "object"
+          }
+        },
+        "type": "object"
+      },
+      "submittable": {
+        "type": "boolean"
+      },
+      "system_properties": {
+        "type": "array"
+      },
+      "unique_keys": {
+        "items": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "type": "array"
+      },
+      "validators": {
+        "items": {
+          "$ref": "#/definitions/validator_def"
+        },
+        "type": [
+          "array",
+          "null"
+        ]
+      }
+    },
+    "required": [
+      "category",
+      "program",
+      "project",
+      "uniqueKeys",
+      "links",
+      "validators",
+      "systemProperties",
+      "id"
+    ],
+    "title": "GDC JSON schema extension"
+  },
+  "nfp": {
     "$schema": "http://json-schema.org/draft-04/schema#",
     "additionalProperties": false,
     "category": "food",
     "description": "Measurement data describe the intended or actual quantity unit of measure for a set of concepts (e.g serving size is 1 tbsp; Total Sugars is 17 g)",
-    "id": "measurement",
+    "id": "nfp",
     "links": [
       {
-        "backref": "measurements",
+        "backref": "nfps",
         "label": "has_nfp",
         "multiplicity": "many_to_one",
         "name": "foods",
         "required": false,
         "target_type": "food"
-      },
-      {
-        "backref": "measurements",
-        "label": "has",
-        "multiplicity": "many_to_one",
-        "name": "ingredients",
-        "required": false,
-        "target_type": "ingredient"
       }
     ],
     "namespace": null,
@@ -3760,16 +4196,387 @@
           "Total isoflavones"
         ]
       },
-      "panel": {
-        "description": "Source for measurements",
+      "project_id": {
+        "term": {
+          "description": "Unique ID for any specific defined piece of work that is undertaken or attempted to meet a single requirement.\n"
+        },
+        "type": "string"
+      },
+      "quantity": {
+        "description": "Measurement value",
+        "type": [
+          "number"
+        ]
+      },
+      "sample_size": {
+        "description": "Amount of food for which analytic measurements are presented",
+        "type": "string"
+      },
+      "state": {
+        "default": "validated",
+        "downloadable": [
+          "uploaded",
+          "md5summed",
+          "validating",
+          "validated",
+          "error",
+          "invalid",
+          "released"
+        ],
+        "oneOf": [
+          {
+            "enum": [
+              "uploading",
+              "uploaded",
+              "md5summing",
+              "md5summed",
+              "validating",
+              "error",
+              "invalid",
+              "suppressed",
+              "redacted",
+              "live"
+            ]
+          },
+          {
+            "enum": [
+              "validated",
+              "submitted",
+              "released"
+            ]
+          }
+        ],
+        "public": [
+          "live"
+        ],
+        "term": {
+          "description": "The current state of the object.\n"
+        }
+      },
+      "submitter_id": {
+        "type": [
+          "string"
+        ]
+      },
+      "type": {
         "enum": [
-          "NFP",
-          "USDA",
-          "Standard Reference[SR]",
-          "Phytonutrient",
-          "Recipe Estimation",
-          "Laboratory testing",
-          "Other"
+          "nfp"
+        ]
+      },
+      "unit": {
+        "description": "Units for measurement",
+        "type": "string"
+      },
+      "updated_datetime": {
+        "oneOf": [
+          {
+            "format": "date-time",
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "term": {
+          "description": "A combination of date and time of day in the form [-]CCYY-MM-DDThh:mm:ss[Z|(+|-)hh:mm]\n"
+        }
+      }
+    },
+    "required": [
+      "submitter_id"
+    ],
+    "submittable": true,
+    "systemProperties": [
+      "id",
+      "project_id",
+      "state",
+      "created_datetime",
+      "updated_datetime"
+    ],
+    "title": "Nutrient Facts Panel",
+    "type": "object",
+    "uniqueKeys": [
+      [
+        "id"
+      ],
+      [
+        "project_id",
+        "submitter_id"
+      ]
+    ],
+    "validators": null
+  },
+  "nfp_plus": {
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "additionalProperties": false,
+    "category": "food",
+    "description": "Measurement data describe the intended or actual quantity unit of measure for a set of concepts (e.g serving size is 1 tbsp; Total Sugars is 17 g)",
+    "id": "nfp_plus",
+    "links": [
+      {
+        "backref": "nfp_pluss",
+        "label": "has_nfp_plus",
+        "multiplicity": "many_to_one",
+        "name": "foods",
+        "required": false,
+        "target_type": "food"
+      }
+    ],
+    "namespace": null,
+    "program": "*",
+    "project": "*",
+    "properties": {
+      "created_datetime": {
+        "oneOf": [
+          {
+            "format": "date-time",
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "term": {
+          "description": "A combination of date and time of day in the form [-]CCYY-MM-DDThh:mm:ss[Z|(+|-)hh:mm]\n"
+        }
+      },
+      "foods": {
+        "anyOf": [
+          {
+            "items": {
+              "additionalProperties": true,
+              "maxItems": 1,
+              "minItems": 1,
+              "properties": {
+                "id": {
+                  "pattern": "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$",
+                  "term": {
+                    "description": "A 128-bit identifier. Depending on the mechanism used to generate it, it is either guaranteed to be different from all other UUIDs/GUIDs generated until 3400 AD or extremely likely to be different. Its relatively small size lends itself well to sorting, ordering, and hashing of all sorts, storing in databases, simple allocation, and ease of programming in general.\n",
+                    "termDef": {
+                      "cde_id": "C54100",
+                      "cde_version": null,
+                      "source": "NCIt",
+                      "term": "Universally Unique Identifier",
+                      "term_url": "https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100"
+                    }
+                  },
+                  "type": "string"
+                },
+                "submitter_id": {
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            },
+            "type": "array"
+          },
+          {
+            "additionalProperties": true,
+            "properties": {
+              "id": {
+                "pattern": "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$",
+                "term": {
+                  "description": "A 128-bit identifier. Depending on the mechanism used to generate it, it is either guaranteed to be different from all other UUIDs/GUIDs generated until 3400 AD or extremely likely to be different. Its relatively small size lends itself well to sorting, ordering, and hashing of all sorts, storing in databases, simple allocation, and ease of programming in general.\n",
+                  "termDef": {
+                    "cde_id": "C54100",
+                    "cde_version": null,
+                    "source": "NCIt",
+                    "term": "Universally Unique Identifier",
+                    "term_url": "https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100"
+                  }
+                },
+                "type": "string"
+              },
+              "submitter_id": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          }
+        ]
+      },
+      "id": {
+        "pattern": "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$",
+        "systemAlias": "node_id",
+        "term": {
+          "description": "A 128-bit identifier. Depending on the mechanism used to generate it, it is either guaranteed to be different from all other UUIDs/GUIDs generated until 3400 AD or extremely likely to be different. Its relatively small size lends itself well to sorting, ordering, and hashing of all sorts, storing in databases, simple allocation, and ease of programming in general.\n",
+          "termDef": {
+            "cde_id": "C54100",
+            "cde_version": null,
+            "source": "NCIt",
+            "term": "Universally Unique Identifier",
+            "term_url": "https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100"
+          }
+        },
+        "type": "string"
+      },
+      "ingredients": {
+        "anyOf": [
+          {
+            "items": {
+              "additionalProperties": true,
+              "maxItems": 1,
+              "minItems": 1,
+              "properties": {
+                "id": {
+                  "pattern": "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$",
+                  "term": {
+                    "description": "A 128-bit identifier. Depending on the mechanism used to generate it, it is either guaranteed to be different from all other UUIDs/GUIDs generated until 3400 AD or extremely likely to be different. Its relatively small size lends itself well to sorting, ordering, and hashing of all sorts, storing in databases, simple allocation, and ease of programming in general.\n",
+                    "termDef": {
+                      "cde_id": "C54100",
+                      "cde_version": null,
+                      "source": "NCIt",
+                      "term": "Universally Unique Identifier",
+                      "term_url": "https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100"
+                    }
+                  },
+                  "type": "string"
+                },
+                "submitter_id": {
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            },
+            "type": "array"
+          },
+          {
+            "additionalProperties": true,
+            "properties": {
+              "id": {
+                "pattern": "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$",
+                "term": {
+                  "description": "A 128-bit identifier. Depending on the mechanism used to generate it, it is either guaranteed to be different from all other UUIDs/GUIDs generated until 3400 AD or extremely likely to be different. Its relatively small size lends itself well to sorting, ordering, and hashing of all sorts, storing in databases, simple allocation, and ease of programming in general.\n",
+                  "termDef": {
+                    "cde_id": "C54100",
+                    "cde_version": null,
+                    "source": "NCIt",
+                    "term": "Universally Unique Identifier",
+                    "term_url": "https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100"
+                  }
+                },
+                "type": "string"
+              },
+              "submitter_id": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          }
+        ]
+      },
+      "nutrient_category": {
+        "description": "Ontology concept for categorization and organization of food composition data",
+        "enum": [
+          "Calories",
+          "Fats",
+          "Cholesterol",
+          "Vitamin",
+          "Mineral",
+          "Fatty Acid",
+          "Total Carbohydrates",
+          "Protein",
+          "Essential Amino Acid (EAA)",
+          "Ratio",
+          "Flavones",
+          "Isoflavones",
+          "Flavonols",
+          "Flavan-3-ols",
+          "Flavanones",
+          "Anthocyanidins",
+          "Proanthocyanidins"
+        ]
+      },
+      "nutrient_name": {
+        "description": "Name of the nutrient for which measurement data are recorded by panel ",
+        "enum": [
+          "Energy",
+          "Net Carbohydrates",
+          "Dietary Fiber",
+          "Total Sugars",
+          "Added Sugars",
+          "Total Fat",
+          "Saturated Fat",
+          "Trans Fat",
+          "Protein",
+          "Vitamin D (D2+D3)",
+          "Vitamin C, total ascorbic acid",
+          "Calcium, Ca",
+          "Chromium, Cr",
+          "Copper, Cu",
+          "Iodine, I",
+          "Iron, Fe",
+          "Magnesium, Mg",
+          "Manganese, Mn",
+          "Molybdenum, Mo",
+          "Phosphorus, P",
+          "Potassium, K",
+          "Selenium, Se",
+          "Zinc, Zn",
+          "Chlorine, Cl",
+          "Sodium, Na",
+          "Vitamin A",
+          "Cholesterol",
+          "Histidine",
+          "Isoleucine",
+          "Leucine",
+          "Lysine",
+          "Methionine",
+          "Phenylalanine",
+          "Threonine",
+          "Tryptophan",
+          "Valine",
+          "Choline",
+          "Vitamin B1 (Thiamin)",
+          "Vitamin B2 (Riboflavin)",
+          "Vitamin B3 (Niacin)",
+          "Vitamin B5 (Pantothenic acid)",
+          "Vitamin B6 (Pyridoxine)",
+          "Vitamin B7 (Biotin)",
+          "Vitamin B9 (Folate, total)",
+          "Vitamin B12 (Cynocobalamin)",
+          "Vitamin E (Alpha-tocopherol)",
+          "Vitamin K (Phylloquinone)",
+          "Omega-3 (EPA)",
+          "Omega-6",
+          "Apigenin",
+          "Biochanin A",
+          "(+)-Catechin",
+          "Coumestrol",
+          "Cyanidin",
+          "Daidzein",
+          "Delphinidin",
+          "(-)-Epicatechin",
+          "(-)-Epicatechin 3-gallate",
+          "(-)-Epigallocatechin",
+          "(-)-Epigallocatechin 3-gallate",
+          "Eriodictyol",
+          "Formononetin",
+          "(+)-Gallocatechin",
+          "Genistein",
+          "Glycitein",
+          "Hesperetin",
+          "Isorhamnetin",
+          "Kaempferol",
+          "Luteolin",
+          "Malvidin",
+          "Myricetin",
+          "Naringenin",
+          "Pelargonidin",
+          "Peonidin",
+          "Petunidin",
+          "Proanthocyanidin 4-6mers",
+          "Proanthocyanidin 7-10mers",
+          "Proanthocyanidin dimers",
+          "Proanthocyanidin polymers (>10mers)",
+          "Proanthocyanidin trimers",
+          "Quercetin",
+          "Theaflavin",
+          "Theaflavin-3,3'-digallate",
+          "Theaflavin-3-gallate",
+          "Theaflavin-3'-gallate",
+          "Thearubigins",
+          "Total isoflavones"
         ]
       },
       "project_id": {
@@ -3836,7 +4643,7 @@
       },
       "type": {
         "enum": [
-          "measurement"
+          "nfp_plus"
         ]
       },
       "unit": {
@@ -3859,8 +4666,7 @@
       }
     },
     "required": [
-      "submitter_id",
-      "panel"
+      "submitter_id"
     ],
     "submittable": true,
     "systemProperties": [
@@ -3870,7 +4676,7 @@
       "created_datetime",
       "updated_datetime"
     ],
-    "title": "Measurement",
+    "title": "Extended Nutrient Profile based on Recipe Estimation",
     "type": "object",
     "uniqueKeys": [
       [
@@ -3882,186 +4688,6 @@
       ]
     ],
     "validators": null
-  },
-  "metaschema": {
-    "$schema": "http://json-schema.org/draft-04/schema#",
-    "allOf": [
-      {
-        "$ref": "http://json-schema.org/draft-04/schema#"
-      }
-    ],
-    "definitions": {
-      "link": {
-        "additionalProperties": false,
-        "properties": {
-          "backref": {
-            "$ref": "#/field"
-          },
-          "label": {
-            "$ref": "#/field"
-          },
-          "multiplicity": {
-            "enum": [
-              "one_to_one",
-              "one_to_many",
-              "many_to_one",
-              "many_to_many"
-            ],
-            "type": "string"
-          },
-          "name": {
-            "$ref": "#/field"
-          },
-          "required": {
-            "type": "boolean"
-          },
-          "target_type": {
-            "$ref": "#/field"
-          }
-        },
-        "required": [
-          "name",
-          "target_type",
-          "backref",
-          "label",
-          "multiplicity",
-          "required"
-        ],
-        "type": "object"
-      },
-      "link_subgroup": {
-        "properties": {
-          "exclusive": {
-            "type": "boolean"
-          },
-          "required": {
-            "type": "boolean"
-          },
-          "subgroup": {
-            "items": {
-              "oneOf": [
-                {
-                  "$ref": "#/definitions/link"
-                },
-                {
-                  "$ref": "#/definitions/link_subgroup"
-                }
-              ]
-            },
-            "type": "array"
-          }
-        },
-        "required": [
-          "exclusive",
-          "required",
-          "subgroup"
-        ]
-      },
-      "validator_def": {
-        "properties": {
-          "link_to_type": {
-            "type": "string"
-          },
-          "multiplicity": {
-            "enum": [
-              "one_to_one",
-              "one_to_many",
-              "many_to_one",
-              "many_to_many"
-            ],
-            "type": "string"
-          }
-        },
-        "required": [
-          "property",
-          "function"
-        ],
-        "title": "Define a validator to be used on a property",
-        "type": "object"
-      }
-    },
-    "field": {
-      "pattern": "^[_a-zA-Z0-9]*$",
-      "type": "string"
-    },
-    "id": "metaschema",
-    "properties": {
-      "category": {
-        "$ref": "#/field",
-        "enum": [
-          "administrative",
-          "analysis",
-          "biospecimen",
-          "clinical",
-          "data",
-          "data_bundle",
-          "data_file",
-          "index_file",
-          "metadata_file",
-          "notation",
-          "qc_bundle",
-          "TBD"
-        ]
-      },
-      "links": {
-        "items": {
-          "oneOf": [
-            {
-              "$ref": "#/definitions/link"
-            },
-            {
-              "$ref": "#/definitions/link_subgroup"
-            }
-          ]
-        },
-        "title": "Define a link to other GDC entities",
-        "type": "array"
-      },
-      "properties": {
-        "additionalProperties": false,
-        "patternProperties": {
-          "^[_a-zA-Z0-9]*$": {
-            "type": "object"
-          }
-        },
-        "type": "object"
-      },
-      "submittable": {
-        "type": "boolean"
-      },
-      "system_properties": {
-        "type": "array"
-      },
-      "unique_keys": {
-        "items": {
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        },
-        "type": "array"
-      },
-      "validators": {
-        "items": {
-          "$ref": "#/definitions/validator_def"
-        },
-        "type": [
-          "array",
-          "null"
-        ]
-      }
-    },
-    "required": [
-      "category",
-      "program",
-      "project",
-      "uniqueKeys",
-      "links",
-      "validators",
-      "systemProperties",
-      "id"
-    ],
-    "title": "GDC JSON schema extension"
   },
   "program": {
     "$schema": "http://json-schema.org/draft-04/schema#",
@@ -4347,267 +4973,6 @@
     "uniqueKeys": [
       [
         "id"
-      ]
-    ],
-    "validators": null
-  },
-  "score": {
-    "$schema": "http://json-schema.org/draft-04/schema#",
-    "additionalProperties": false,
-    "category": "food",
-    "description": "Collection of scores for foods based on ingredient and nutrient composition",
-    "id": "score",
-    "links": [
-      {
-        "backref": "scores",
-        "label": "consists_of",
-        "multiplicity": "many_to_one",
-        "name": "foods",
-        "required": true,
-        "target_type": "food"
-      }
-    ],
-    "namespace": null,
-    "program": "*",
-    "project": "*",
-    "properties": {
-      "created_datetime": {
-        "oneOf": [
-          {
-            "format": "date-time",
-            "type": "string"
-          },
-          {
-            "type": "null"
-          }
-        ],
-        "term": {
-          "description": "A combination of date and time of day in the form [-]CCYY-MM-DDThh:mm:ss[Z|(+|-)hh:mm]\n"
-        }
-      },
-      "eaa3_protein_score": {
-        "description": "Protein Quality score calculated based on Essential Amino Acids (EAA)- Leucine, Lysine and Methionine - content in food",
-        "type": [
-          "number"
-        ]
-      },
-      "eaa9_protein_score": {
-        "description": "Protein Quality score calculated based on Essential Amino Acids (EAA) content in food",
-        "type": [
-          "number"
-        ]
-      },
-      "en_nute_40_score": {
-        "description": "Nutrient density score for a food based on 40 Essential Nutrients",
-        "type": [
-          "number"
-        ]
-      },
-      "foods": {
-        "anyOf": [
-          {
-            "items": {
-              "additionalProperties": true,
-              "maxItems": 1,
-              "minItems": 1,
-              "properties": {
-                "id": {
-                  "pattern": "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$",
-                  "term": {
-                    "description": "A 128-bit identifier. Depending on the mechanism used to generate it, it is either guaranteed to be different from all other UUIDs/GUIDs generated until 3400 AD or extremely likely to be different. Its relatively small size lends itself well to sorting, ordering, and hashing of all sorts, storing in databases, simple allocation, and ease of programming in general.\n",
-                    "termDef": {
-                      "cde_id": "C54100",
-                      "cde_version": null,
-                      "source": "NCIt",
-                      "term": "Universally Unique Identifier",
-                      "term_url": "https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100"
-                    }
-                  },
-                  "type": "string"
-                },
-                "submitter_id": {
-                  "type": "string"
-                }
-              },
-              "type": "object"
-            },
-            "type": "array"
-          },
-          {
-            "additionalProperties": true,
-            "properties": {
-              "id": {
-                "pattern": "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$",
-                "term": {
-                  "description": "A 128-bit identifier. Depending on the mechanism used to generate it, it is either guaranteed to be different from all other UUIDs/GUIDs generated until 3400 AD or extremely likely to be different. Its relatively small size lends itself well to sorting, ordering, and hashing of all sorts, storing in databases, simple allocation, and ease of programming in general.\n",
-                  "termDef": {
-                    "cde_id": "C54100",
-                    "cde_version": null,
-                    "source": "NCIt",
-                    "term": "Universally Unique Identifier",
-                    "term_url": "https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100"
-                  }
-                },
-                "type": "string"
-              },
-              "submitter_id": {
-                "type": "string"
-              }
-            },
-            "type": "object"
-          }
-        ]
-      },
-      "id": {
-        "pattern": "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$",
-        "systemAlias": "node_id",
-        "term": {
-          "description": "A 128-bit identifier. Depending on the mechanism used to generate it, it is either guaranteed to be different from all other UUIDs/GUIDs generated until 3400 AD or extremely likely to be different. Its relatively small size lends itself well to sorting, ordering, and hashing of all sorts, storing in databases, simple allocation, and ease of programming in general.\n",
-          "termDef": {
-            "cde_id": "C54100",
-            "cde_version": null,
-            "source": "NCIt",
-            "term": "Universally Unique Identifier",
-            "term_url": "https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100"
-          }
-        },
-        "type": "string"
-      },
-      "immunity_score": {
-        "description": "Immunity score calculated based on Vitamin and mineral content in food",
-        "type": [
-          "number"
-        ]
-      },
-      "mental_acuity_score": {
-        "description": "Mental acuity score calculated based on Omega-3 and mineral content in food",
-        "type": [
-          "number"
-        ]
-      },
-      "nrf93_score": {
-        "description": "Nutrient Rich Foods score",
-        "type": [
-          "number"
-        ]
-      },
-      "nutes": {
-        "description": "Nutrient density or nutes score for a food",
-        "type": [
-          "number"
-        ]
-      },
-      "physical_energy_score": {
-        "description": "Physical energy score calculated based on Vitamin B and mineral content in food",
-        "type": [
-          "number"
-        ]
-      },
-      "project_id": {
-        "term": {
-          "description": "Unique ID for any specific defined piece of work that is undertaken or attempted to meet a single requirement.\n"
-        },
-        "type": "string"
-      },
-      "state": {
-        "default": "validated",
-        "downloadable": [
-          "uploaded",
-          "md5summed",
-          "validating",
-          "validated",
-          "error",
-          "invalid",
-          "released"
-        ],
-        "oneOf": [
-          {
-            "enum": [
-              "uploading",
-              "uploaded",
-              "md5summing",
-              "md5summed",
-              "validating",
-              "error",
-              "invalid",
-              "suppressed",
-              "redacted",
-              "live"
-            ]
-          },
-          {
-            "enum": [
-              "validated",
-              "submitted",
-              "released"
-            ]
-          }
-        ],
-        "public": [
-          "live"
-        ],
-        "term": {
-          "description": "The current state of the object.\n"
-        }
-      },
-      "strength_recovery_score": {
-        "description": "Strength/Recovery score calculated based on essential amino acids and mineral content in food",
-        "type": [
-          "number"
-        ]
-      },
-      "submitter_id": {
-        "type": [
-          "string"
-        ]
-      },
-      "survival_score": {
-        "description": "Survival score calculated based on Vitamins, minerals and essential amino acid content in food\"",
-        "type": [
-          "number"
-        ]
-      },
-      "type": {
-        "enum": [
-          "score"
-        ]
-      },
-      "updated_datetime": {
-        "oneOf": [
-          {
-            "format": "date-time",
-            "type": "string"
-          },
-          {
-            "type": "null"
-          }
-        ],
-        "term": {
-          "description": "A combination of date and time of day in the form [-]CCYY-MM-DDThh:mm:ss[Z|(+|-)hh:mm]\n"
-        }
-      }
-    },
-    "required": [
-      "submitter_id",
-      "foods"
-    ],
-    "submittable": true,
-    "systemProperties": [
-      "id",
-      "project_id",
-      "state",
-      "created_datetime",
-      "updated_datetime"
-    ],
-    "title": "Score",
-    "type": "object",
-    "uniqueKeys": [
-      [
-        "id"
-      ],
-      [
-        "project_id",
-        "submitter_id"
       ]
     ],
     "validators": null
