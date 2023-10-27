@@ -265,6 +265,7 @@
     "guppyConfig": {
       "dataType": "food",
       "nodeCountTitle": "Foods",
+      "tierAccessLevel": "regular",
       "accessibleFieldCheckList": ["project_id"],
       "accessibleValidationField": "project_id",
       "fieldMapping": [
