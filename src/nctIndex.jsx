@@ -21,7 +21,6 @@ import {
   faInstagramSquare,
   faPinterestSquare,
 } from '@fortawesome/free-brands-svg-icons';
-import ReactGA from 'react-ga';
 import { Helmet } from 'react-helmet';
 import { datadogRum } from '@datadog/browser-rum';
 
@@ -56,15 +55,15 @@ import getReduxStore from './reduxStore';
 import { ReduxNavBar, ReduxTopBar } from './Layout/reduxer';
 import ReduxQueryNode, { submitSearchForm } from './QueryNode/ReduxQueryNode';
 import {
-  basename, dev, gaDebug, workspaceUrl, workspaceErrorUrl,
+  basename, gaTrackingId, workspaceUrl, workspaceErrorUrl,
   indexPublic, explorerPublic, enableResourceBrowser, resourceBrowserPublic, enableDAPTracker,
   discoveryConfig, ddApplicationId, ddClientToken, ddEnv, ddSampleRate,
 } from './localconf';
 import { portalVersion } from './versions';
 import Analysis from './Analysis/Analysis';
 import ReduxAnalysisApp from './Analysis/ReduxAnalysisApp';
-import { gaTracking, components } from './params';
-import GA, { RouteTracker } from './components/GoogleAnalytics';
+import { components } from './params';
+import { GAInit, GARouteTracker } from './components/GoogleAnalytics';
 import { DAPRouteTracker } from './components/DAPAnalytics';
 import GuppyDataExplorer from './GuppyDataExplorer';
 import isEnabled from './helpers/featureFlags';
@@ -89,13 +88,12 @@ workspaceSessionMonitor.start();
 async function init() {
   const store = await getReduxStore();
 
-  ReactGA.initialize(gaTracking);
-  ReactGA.pageview(window.location.pathname + window.location.search);
-
   // Datadog setup
   if (ddApplicationId && !ddClientToken) {
+    // eslint-disable-next-line no-console
     console.warn('Datadog applicationId is set, but clientToken is missing');
   } else if (!ddApplicationId && ddClientToken) {
+    // eslint-disable-next-line no-console
     console.warn('Datadog clientToken is set, but applicationId is missing');
   } else if (ddApplicationId && ddClientToken) {
     datadogRum.init({
@@ -142,7 +140,7 @@ async function init() {
         <ThemeProvider theme={theme}>
           <BrowserRouter basename={basename}>
             <div className='main-page'>
-              {GA.init(gaTracking, dev, gaDebug) && <RouteTracker />}
+              {(GAInit(gaTrackingId)) && <GARouteTracker />}
               {enableDAPTracker && <DAPRouteTracker />}
               {isEnabled('noIndex')
                 ? (
