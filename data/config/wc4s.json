@@ -1,5 +1,4 @@
 {
-  "requiredCerts": [],
   "graphql": {
     "boardCounts": [
       {
@@ -11,11 +10,6 @@
         "graphql": "_ingredient_count",
         "name": "Ingredient",
         "plural": "Ingredients"
-      },
-      {
-        "graphql": "_measurement_count",
-        "name": "Nutrient",
-        "plural": "Nutrients"
       }
     ],
     "chartCounts": [
@@ -26,25 +20,21 @@
       {
         "graphql": "_ingredient_count",
         "name": "Ingredient"
-      },
-      {
-        "graphql": "_measurement_count",
-        "name": "Nutrient"
       }
     ],
     "projectDetails": "boardCounts"
   },
   "components": {
-    "appName": "WISEcode Nutritional Data Platform",
+    "appName": "WISEcode for Science",
     "homepageAltText": "WISEcode Nutritional Data Platform logo",
-    "homepageHref": "https://science-dev.wisecode.ai/",
+    "homepageHref": "https://science.wisecode.ai/",
     "index": {
       "introduction": {
         "heading": "Welcome to WISEcode for Science",
         "multiLineTexts": [
           "WISEcode for Science is a cloud-based, secure platform that enables easy access, analysis, and sharing of food and nutritional data sets. The platform is designed to accelerate food, nutrition, and health research for academic and industry scientists.  It integrates public domain reference data such as USDA Food Data Central, retail data from major grocers, major CPG manufacturer data, and other research project data and provides a variety of advanced analysis tools.  The platform also allows you to bring your own data and build new applications that you can share with others.",
           "<b>About the WISEcode</b>",
-          "WISEcode is a data and data science company utilizing AI to provide the most comprehensive and accurate food, ingredient, nutrient, and health information.  We strive every day to unleash the world’s creativity to promote human advancement and to inspire human greatness.",
+          "WISEcode is a data and data science company utilizing AI to provide the most comprehensive and accurate food, ingredient, nutrient, and health information.  We strive every day to unleash the world's creativity to promote human advancement and to inspire human greatness.",
           "We hope this resource will enable you to advance science improving the health of people around the world."
         ]
       },
@@ -77,12 +67,8 @@
           "name": "Foods"
         },
         {
-          "node": "recipe",
+          "node": "ingredient",
           "name": "Ingredients"
-        },
-        {
-          "node": "measurement",
-          "name": "Nutrients"
         }
       ]
     },
@@ -114,12 +100,6 @@
           "tooltip": ""
         },
         {
-          "icon": "files",
-          "link": "/files",
-          "name": "Files",
-          "tooltip": ""
-        },
-        {
           "icon": "profile",
           "link": "/identity",
           "name": "Profile",
@@ -133,10 +113,6 @@
           "icon": "upload",
           "link": "/submission",
           "name": "Submit Data"
-        },
-        {
-          "link": "https://gen3.org/resources/user/",
-          "name": "Documentation"
         }
       ]
     },
@@ -166,12 +142,12 @@
       "food_category": {
         "chartType": "bar",
         "title": "Food Category",
-	"tab": "Food"
+        "tab": "Food"
       },
       "brand": {
         "chartType": "bar",
         "title": "Brand",
-	"tab": "Food"
+  "tab": "Food"
       },
       "ingredients.category": {
         "chartType": "bar",
@@ -191,7 +167,7 @@
     },
     "filters": {
       "tabs": [
-	{
+  {
           "title": "Data",
           "fields":[
             "source",
@@ -201,44 +177,45 @@
         {
           "title": "Food",
           "fields":[
-	    "food_type",
-	    "food_category",
+      "food_type",
+      "food_category",
+      "wc_name",
             "brand",
             "brand_owner",
             "price",
-	    "allergen_category",
-	    "attributes"
+      "allergen_category"
           ]
         },
         {
           "title": "Ingredient",
-	  "fields":[
-            "ingredients.name",
+          "fields":[
+      "ingredients.wc_name",
             "ingredients.category",
             "ingredients.sweetener",
-            "ingredients.allergen_category"
+      "ingredients.allergen_category"
           ]
         },
         {
           "title": "Nutrient",
           "fields":[
-            "measurement_tot.panel",
+      "measurement_tot.panel",
             "measurement_tot.nutrient_category",
-            "measurement_tot.nutrient_name"
+            "measurement_tot.nutrient_name",
+      "measurement_tot.quantity"
           ]
         },
         {
           "title": "Score",
-	  "fields":[
+          "fields":[
             "scores.nutes",
-            "scores.en_nute_40_score",
-            "scores.immunity_score",
-            "scores.physical_energy_score",
-            "scores.strength_recovery_score",
-            "scores.mental_acuity_score",
-            "scores.survival_score",
-            "scores.eaa9_protein_score",
-            "scores.eaa3_protein_score"
+      "scores.en_nute_40_score",
+      "scores.immunity_score",
+      "scores.physical_energy_score",
+      "scores.strength_recovery_score",
+      "scores.mental_acuity_score",
+      "scores.survival_score",
+      "scores.eaa9_protein_score",
+      "scores.eaa3_protein_score"
           ]
         }
       ]
@@ -246,22 +223,17 @@
     "table": {
       "enabled": true,
       "fields": [
-          "name",
-          "source",
-          "ingredient_list",
-          "ingredients.name",
-          "ingredient_measurements_panel_unique",
-          "fdc_id",
+    "name",
+          "food_link",
+    "source",
+    "ingredient_list",
+    "ingredients.name",
+    "ingredient_measurements_panel_unique",
+    "fdc_id",
           "brand",
           "brand_owner",
-          "allergen_category",
-          "ingredients.fdc_id",
-          "measurement_tot.panel",
-          "measurement_tot.nutrient_category",
-          "measurement_tot.nutrient_name",
-          "measurement_tot.quantity",
-          "measurement_tot.unit",
-          "measurement_tot.sample_size"
+    "allergen_category",
+          "ingredients.fdc_id"
         ],
       "linkFields": [ "food_link" ]
     },
@@ -296,15 +268,15 @@
       "accessibleFieldCheckList": ["project_id"],
       "accessibleValidationField": "project_id",
       "fieldMapping": [
-	  {
+      {
             "field": "food_link",
             "name": ""
           },
-	  {
+          {
             "field": "upc",
             "name": "UPC"
           },
-	  {
+          {
             "field": "data_source",
             "name": "Datasets"
           },
@@ -328,7 +300,7 @@
             "field": "measurements.quantity",
             "name": "Quantity"
           },
-	  {
+          {
             "field": "measurement_tot.panel",
             "name": "Panel"
           },
@@ -340,33 +312,89 @@
             "field": "measurement_tot.concept",
             "name": "Concept"
           },
-          {
-            "field": "recipes.name",
-            "name": "Processed Ingredient List"
+    {
+            "field": "ingredients.name",
+            "name": "Canon Ingredient List, alphabetized"
           },
-	  {
-            "field": "recipes.sweetener",
+          {
+            "field": "ingredients.sweetener",
             "name": "Sweeteners"
           },
-	  {
-            "field": "recipes.category",
+          {
+            "field": "ingredients.category",
             "name": "Ingredient Category"
           },
           {
-            "field": "recipes.recipe_measurements.quantity",
+            "field": "ingredients.ingredient_measurements.quantity",
             "name": "Quantity"
           },
           {
-            "field": "recipe_measurements_panel_unique",
+            "field": "ingredient_measurements_panel_unique",
             "name": "Panel"
           },
           {
-            "field": "recipes.recipe_measurements.concept",
+            "field": "ingredients.ingredient_measurements.concept",
             "name": "Concept"
           },
           {
-            "field": "recipes.recipe_measurements.unit",
+            "field": "ingredients.ingredient_measurements.unit",
             "name": "Unit"
+          },
+          {
+            "field": "scores.nutes",
+            "name": "NUTES (END-40.3)"
+          },
+          {
+            "field": "scores.en_nute_40_score",
+            "name": "Essential Nutrient Density (END-40)"
+          },
+          {
+            "field": "scores.immunity_score",
+            "name": "Immunity (IMM-6)"
+          },
+          {
+            "field": "scores.physical_energy_score",
+            "name": "Physical Energy (PE-8)"
+          },
+          {
+            "field": "scores.strength_recovery_score",
+            "name": "Strength (STR-12)"
+          },
+          {
+            "field": "scores.mental_acuity_score",
+            "name": "Mental Acuity (MA-5)"
+          },
+          {
+            "field": "scores.survival_score",
+            "name": "Survival (SUR-26)"
+          },
+          {
+            "field": "scores.eaa9_protein_score",
+            "name": "Essential Amino Acids (EAA-9)"
+          },
+          {
+            "field": "scores.eaa3_protein_score",
+            "name": "Essential Amino Acids (EAA-3)"
+          },
+    {
+            "field": "measurement_tot.nutrient_category",
+            "name": "Nutrient Category"
+          },
+          {
+            "field": "measurement_tot.nutrient_name",
+            "name": "Nutrient Name"
+          },
+          {
+            "field": "ingredients.allergen_category",
+            "name": "Allergens"
+          },
+    {
+            "field": "wc_name",
+            "name": "Canon Name"
+          },
+    {
+            "field": "ingredients.wc_name",
+            "name": "Canon Name"
           }
         ]
     }
