@@ -63,6 +63,20 @@ const getNodePropertyCount = (dictionary) => {
 const DataDictionaryTable = ({
   dictionary, highlightingNodeID, onExpandNode, dictionaryName,
 }) => {
+  // https://stackoverflow.com/questions/54446080/how-to-keep-order-of-sorted-dictionary-passed-to-jsonify-function
+  // The above URL / page explain how to solve it on the service layer. We could implement the suggested changes in Sheepdog and remove the following snippet of code.
+  // Since we haven't forked Sheepdog yet and I haven't doublechecked if this affects any other services I implemented the following patch here to order the table to our preference.
+  const node_order = ["food", "ingredient", "nfp", "nfp_plus", "code"]
+  let dictionary_tmp = {}
+  for (const [key, value] of Object.entries(dictionary)) {
+    if (!node_order.includes(key)) {
+      dictionary_tmp[key] = value
+    }
+  }
+  node_order.forEach(node => dictionary_tmp[node] = dictionary[node]);
+  dictionary = dictionary_tmp;
+  // END patch
+  
   const c2nl = category2NodeList(dictionary);
   const { nodesCount, propertiesCount } = getNodePropertyCount(dictionary);
   return (
