@@ -256,7 +256,7 @@ class ExplorerVisualization extends React.Component {
         </div>
         
         <Tabs>
-          <div label="charts">
+          <div label="Visualizations">
             {
               chartData.summaries.length > 0 && (
                   (this.props.chartTabConfig === undefined || this.props.chartTabConfig.length) == 0 ?
@@ -348,7 +348,7 @@ class ExplorerVisualization extends React.Component {
               )
             }
           </div>
-          <div label="table">
+          <div label="Tabular View">
             {
               this.props.tableConfig.enabled && (
                 <ExplorerTable
