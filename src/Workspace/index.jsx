@@ -176,10 +176,8 @@ class Workspace extends React.Component {
         }
         return null;
       }).catch(() => 'Error');
-    if (payModels?.current_pay_model) {
-      return payModels;
-    }
-    return {};
+
+    return payModels || {};
   }
 
   getIcon = (workspace) => {
@@ -260,13 +258,24 @@ class Workspace extends React.Component {
       (element.type === 'ContainersReady' && element.status === 'False')
     ))) {
       workspaceLaunchStepsConfig.currentIndex = 2;
-      if (workspaceStatusData.containerStates.some((element) => (
+      workspaceLaunchStepsConfig.steps[2].description = 'In progress';
+      const cs = workspaceStatusData.containerStates;
+
+      if (cs.some((element) => (
         (element.state && element.state.terminated)
       ))) {
         workspaceLaunchStepsConfig.steps[2].description = 'Error';
         workspaceLaunchStepsConfig.currentStepsStatus = 'error';
-      } else {
-        workspaceLaunchStepsConfig.steps[2].description = 'In progress';
+      }
+      else
+      {
+        //If container states are available, display detailed pod statuses
+        if (cs.length > 0) {
+          for (let i = 0; i < cs.length; i++) {
+            const j = i+1
+            workspaceLaunchStepsConfig.steps[2].description = workspaceLaunchStepsConfig.steps[2].description.concat(' \n Container ' + j + ' Ready: ' + cs[i].ready);
+          }
+        }
       }
       return workspaceLaunchStepsConfig;
     }
@@ -274,6 +283,19 @@ class Workspace extends React.Component {
     // here we are at step 3, step 3 have no k8s pod/container conditions
     workspaceLaunchStepsConfig.steps[0].description = 'Pod scheduled';
     workspaceLaunchStepsConfig.steps[1].description = 'Pod initialized';
+
+    // Display ECS status
+    if (workspaceStatusData.workspaceType === 'ECS') {
+      workspaceLaunchStepsConfig.currentIndex = 2;
+      if (workspaceStatusData.status === 'Launching') {
+        workspaceLaunchStepsConfig.steps[2].description = 'ECS task pending';
+      }
+      else if (workspaceStatusData.status !== 'Active') {
+        workspaceLaunchStepsConfig.steps[2].description = 'ECS task failed';
+      }
+      return workspaceLaunchStepsConfig;
+    }
+
     workspaceLaunchStepsConfig.steps[2].description = 'All containers are ready';
 
     // condition type: ProxyConnected + status: false => at step 3
@@ -332,7 +354,7 @@ class Workspace extends React.Component {
         path: `${workspaceTerminateUrl}`,
         method: 'POST',
       }).then(() => {
-        this.checkWorkspaceStatus();
+        this.checkWorkspaceStatus({ triggerPayModelCall: true });
       });
     });
   }
@@ -364,7 +386,7 @@ class Workspace extends React.Component {
     }
   }
 
-  checkWorkspaceStatus = async () => {
+  checkWorkspaceStatus = async (args) => {
     if (this.state.interval) {
       clearInterval(this.state.interval);
     }
@@ -374,6 +396,13 @@ class Workspace extends React.Component {
         if (this.workspaceStates.includes(data.status)) {
           const workspaceLaunchStepsConfig = this.getWorkspaceLaunchSteps(data);
           let workspaceStatus = data.status;
+          if (args?.triggerPayModelCall && workspaceStatus === 'Not Found') {
+            this.getWorkspacePayModel().then((payModelData) => {
+              this.setState({
+                payModel: payModelData,
+              });
+            });
+          }
           if (workspaceLaunchStepsConfig && workspaceLaunchStepsConfig.currentStepsStatus === 'error') {
             workspaceStatus = 'Stopped';
           }
@@ -514,6 +543,7 @@ class Workspace extends React.Component {
       const showExternalLoginsHintBanner = this.state.externalLoginOptions.length > 0
         && this.state.externalLoginOptions.some((option) => !option.refresh_token_expiration);
       const isPayModelAboveLimit = this.state.payModel.current_pay_model?.request_status === 'above limit';
+      const isPaymodelNeededToLaunch = Object.keys(this.state.payModel).length > 0 && this.state.payModel.current_pay_model == null;
       return (
         <div
           className={`workspace ${this.state.workspaceIsFullpage ? 'workspace--fullpage' : ''}`}
@@ -549,7 +579,7 @@ class Workspace extends React.Component {
                             <div className='workspace__pay-model-selector'>
                               <Dropdown overlay={menu} disabled>
                                 <Btn block size='large'>
-                                  {this.state.payModel.current_pay_model?.workspace_type || 'N/A'} <LoadingOutlined />
+                                  {(this.state.payModel.current_pay_model) ? (this.state.payModel.current_pay_model.workspace_type || 'N/A') : 'Select a Pay model'} <LoadingOutlined />
                                 </Btn>
                               </Dropdown>
                               <Tooltip title='Switching paymodels is only allowed when you have no running workspaces.'>
@@ -560,7 +590,7 @@ class Workspace extends React.Component {
                             <div className='workspace__pay-model-selector'>
                               <Dropdown overlay={menu}>
                                 <Btn block size='large'>
-                                  {this.state.payModel.current_pay_model?.workspace_type || 'N/A'} <DownOutlined />
+                                  {(this.state.payModel.current_pay_model) ? (this.state.payModel.current_pay_model.workspace_type || 'N/A') : 'Select a Pay model'} <DownOutlined />
                                 </Btn>
                               </Dropdown>
                               {(this.state.workspaceStatus === 'Errored') ? (
@@ -629,6 +659,7 @@ class Workspace extends React.Component {
                         >
                           {(this.state.workspaceLaunchStepsConfig.steps.map((step) => (
                             <Step
+                              classname = 'workspaceStep'
                               key={step.title}
                               title={step.title}
                               description={step.description}
@@ -687,6 +718,16 @@ class Workspace extends React.Component {
                       </div>
                     )
                     : null}
+                  {isPaymodelNeededToLaunch
+                    ? (
+                      <Alert
+                        description='Please Select a Paymodel in order to launch a workspace'
+                        type='error'
+                        banner
+                        closable
+                      />
+                    )
+                    : null}
                   {showExternalLoginsHintBanner
                     ? (
                       <Alert
@@ -729,6 +770,7 @@ class Workspace extends React.Component {
                               (!!this.state.workspaceID
                               && this.state.workspaceID !== option.id)
                               || isPayModelAboveLimit
+                              || isPaymodelNeededToLaunch
                             }
                           />
                         );

@@ -36,7 +36,7 @@ if (configFile.featureFlags && configFile.featureFlags.discoveryUseAggMDS) {
   connectSrcURLs.push('https://dataguids.org');
 }
 if (configFile.featureFlags && configFile.featureFlags.studyRegistration) {
-  connectSrcURLs.push('https://clinicaltrials.gov');
+  connectSrcURLs.push('https://classic.clinicaltrials.gov');
 }
 if (process.env.DATADOG_APPLICATION_ID && process.env.DATADOG_CLIENT_TOKEN) {
   connectSrcURLs.push('https://*.logs.datadoghq.com');
@@ -87,6 +87,7 @@ const plugins = [
   new webpack.EnvironmentPlugin(['DATADOG_APPLICATION_ID']),
   new webpack.EnvironmentPlugin(['DATADOG_CLIENT_TOKEN']),
   new webpack.EnvironmentPlugin(['DATA_UPLOAD_BUCKET']),
+  new webpack.EnvironmentPlugin(['GEN3_BUNDLE']),
   new webpack.DefinePlugin({ // <-- key to reducing React's size
     'process.env': {
       NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'dev'),

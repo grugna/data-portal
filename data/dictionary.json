@@ -4310,7 +4310,7 @@
     "$schema": "http://json-schema.org/draft-04/schema#",
     "additionalProperties": false,
     "category": "food",
-    "description": "Measurement data describe the intended or actual quantity unit of measure for a set of concepts (e.g serving size is 1 tbsp; Total Sugars is 17 g)",
+    "description": "Estimated nutrient values based on Recipe Estimation (RE)",
     "id": "nfp_plus",
     "links": [
       {
@@ -4676,7 +4676,7 @@
       "created_datetime",
       "updated_datetime"
     ],
-    "title": "Extended Nutrient Profile based on Recipe Estimation",
+    "title": "Extended Nutrient Profile",
     "type": "object",
     "uniqueKeys": [
       [

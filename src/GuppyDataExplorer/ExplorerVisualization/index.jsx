@@ -254,22 +254,23 @@ class ExplorerVisualization extends React.Component {
             isPending={this.props.aggsDataIsLoading}
           />
         </div>
-        {
-          chartData.summaries.length > 0 && (
-              (this.props.chartTabConfig === undefined || this.props.chartTabConfig.length) == 0 ?
-                (
-                  <SummaryChartGroup
-                    summaries={chartData.summaries}
-                    lockMessage={lockMessage}
-                    barChartColor={barChartColor}
-                    useCustomizedColorMap={!!components.categorical9Colors}
-                    customizedColorMap={components.categorical9Colors || []}
-                  />
-                ) 
-              :
-                (
-                  <Tabs>
-                    {
+        
+        <Tabs>
+          <div label="Visualizations">
+            {
+              chartData.summaries.length > 0 && (
+                  (this.props.chartTabConfig === undefined || this.props.chartTabConfig.length) == 0 ?
+                    (
+                      <SummaryChartGroup
+                        summaries={chartData.summaries}
+                        lockMessage={lockMessage}
+                        barChartColor={barChartColor}
+                        useCustomizedColorMap={!!components.categorical9Colors}
+                        customizedColorMap={components.categorical9Colors || []}
+                      />
+                    ) 
+                  :
+                    (
                       this.props.chartTabConfig.map(tab => (
                           <div key={"summaries_" + tab} className='guppy-explorer-visualization__charts' label={tab}>
                             <SummaryChartGroup
@@ -282,90 +283,92 @@ class ExplorerVisualization extends React.Component {
                           </div>
                         )
                       )
-                    }
-                  </Tabs>
-                )
-          )
-        }     
-        {
-          chartData.stackedBarCharts.length > 0 && (
-            <div className='guppy-explorer-visualization__charts'>
-              {
-                chartData.stackedBarCharts.map((chart, i) => (
-                  <div key={i} className='guppy-explorer-visualization__charts-row'>
-                    {
-                      i > 0 && <div className='percentage-bar-chart__row-upper-border' />
-                    }
-                    {
-                      <PercentageStackedBarChart
-                        key={i}
-                        data={chart.data}
-                        title={chart.title}
-                        lockMessage={lockMessage}
-                        useCustomizedColorMap={!!components.categorical9Colors}
-                        customizedColorMap={components.categorical9Colors || []}
-                      />
-                    }
-                  </div>
-                ),
-                )
-              }
-            </div>
-          )
-        }
-        {
-          heatMapGuppyConfig && (
-            <GuppyWrapper
-              guppyConfig={{
-                path: guppyUrl,
-                type: heatMapGuppyConfig.dataType,
-                ...heatMapGuppyConfig,
-              }}
-              filterConfig={heatMapFilterConfig}
-              tierAccessLevel={tierAccessLevel}
-              tierAccessLimit={tierAccessLimit}
-            >
-              <ConnectedFilter
-                className='guppy-explorer-visualization__connected-filter--hide'
-                ref={this.connectedFilter}
-                guppyConfig={{
-                  path: guppyUrl,
-                  type: heatMapGuppyConfig.dataType,
-                  ...heatMapGuppyConfig,
-                }}
-                filterConfig={heatMapFilterConfig}
-              />
-              <ExplorerHeatMap
-                guppyConfig={{
-                  path: guppyUrl,
-                  type: heatMapGuppyConfig.dataType,
-                  ...heatMapGuppyConfig,
-                }}
-                mainYAxisVar={heatMapMainYAxisVar}
-                isLocked={this.heatMapIsLocked}
-                lockMessage={'This chart is hidden because it contains data you do not have access to'}
-              />
-            </GuppyWrapper>
-          )
-        }
-        {
-          this.props.tableConfig.enabled && (
-            <ExplorerTable
-              className='guppy-explorer-visualization__table'
-              tableConfig={{
-                fields: tableColumns,
-                ordered: tableColumnsOrdered,
-                linkFields: this.props.tableConfig.linkFields || [],
-                dicomViewerId: this.props.tableConfig.dicomViewerId,
-              }}
-              fetchAndUpdateRawData={this.props.fetchAndUpdateRawData}
-              rawData={this.props.rawData}
-              totalCount={this.props.totalCount}
-              guppyConfig={this.props.guppyConfig}
-              isLocked={isComponentLocked}
-            />
-          )
-        }
+                    )
+              )
+            }     
+            {
+              chartData.stackedBarCharts.length > 0 && (
+                <div className='guppy-explorer-visualization__charts'>
+                  {
+                    chartData.stackedBarCharts.map((chart, i) => (
+                      <div key={i} className='guppy-explorer-visualization__charts-row'>
+                        {
+                          i > 0 && <div className='percentage-bar-chart__row-upper-border' />
+                        }
+                        {
+                          <PercentageStackedBarChart
+                            key={i}
+                            data={chart.data}
+                            title={chart.title}
+                            lockMessage={lockMessage}
+                            useCustomizedColorMap={!!components.categorical9Colors}
+                            customizedColorMap={components.categorical9Colors || []}
+                          />
+                        }
+                      </div>
+                    ),
+                    )
+                  }
+                </div>
+              )
+            }
+            {
+              heatMapGuppyConfig && (
+                <GuppyWrapper
+                  guppyConfig={{
+                    path: guppyUrl,
+                    type: heatMapGuppyConfig.dataType,
+                    ...heatMapGuppyConfig,
+                  }}
+                  filterConfig={heatMapFilterConfig}
+                  tierAccessLevel={tierAccessLevel}
+                  tierAccessLimit={tierAccessLimit}
+                >
+                  <ConnectedFilter
+                    className='guppy-explorer-visualization__connected-filter--hide'
+                    ref={this.connectedFilter}
+                    guppyConfig={{
+                      path: guppyUrl,
+                      type: heatMapGuppyConfig.dataType,
+                      ...heatMapGuppyConfig,
+                    }}
+                    filterConfig={heatMapFilterConfig}
+                  />
+                  <ExplorerHeatMap
+                    guppyConfig={{
+                      path: guppyUrl,
+                      type: heatMapGuppyConfig.dataType,
+                      ...heatMapGuppyConfig,
+                    }}
+                    mainYAxisVar={heatMapMainYAxisVar}
+                    isLocked={this.heatMapIsLocked}
+                    lockMessage={'This chart is hidden because it contains data you do not have access to'}
+                  />
+                </GuppyWrapper>
+              )
+            }
+          </div>
+          <div label="Tabular View">
+            {
+              this.props.tableConfig.enabled && (
+                <ExplorerTable
+                  className='guppy-explorer-visualization__table'
+                  tableConfig={{
+                    fields: tableColumns,
+                    ordered: tableColumnsOrdered,
+                    linkFields: this.props.tableConfig.linkFields || [],
+                    dicomViewerId: this.props.tableConfig.dicomViewerId,
+                  }}
+                  fetchAndUpdateRawData={this.props.fetchAndUpdateRawData}
+                  rawData={this.props.rawData}
+                  totalCount={this.props.totalCount}
+                  guppyConfig={this.props.guppyConfig}
+                  isLocked={isComponentLocked}
+                />
+              )
+            }
+          </div>
+        </Tabs>
       </div>
     );
   }

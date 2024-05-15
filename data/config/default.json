@@ -10,11 +10,6 @@
         "graphql": "_ingredient_count",
         "name": "Recipe",
         "plural": "Recipes"
-      },
-      {
-        "graphql": "_measurement_count",
-        "name": "Measurement",
-        "plural": "Measurements"
       }
     ],
     "chartCounts": [
@@ -25,10 +20,6 @@
       {
         "graphql": "_ingredient_count",
         "name": "Recipe"
-      },
-      {
-        "graphql": "_measurement_count",
-        "name": "Measurement"
       }
     ],
     "projectDetails": "boardCounts"
@@ -78,10 +69,6 @@
         {
           "node": "ingredient",
           "name": "Recipes"
-        },
-        {
-          "node": "measurement",
-          "name": "Measurements"
         }
       ]
     },
