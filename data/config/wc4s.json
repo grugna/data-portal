@@ -167,22 +167,13 @@
     },
     "filters": {
       "tabs": [
-  {
-          "title": "Data",
-          "fields":[
-            "source",
-            "data_source"
-          ]
-        },
         {
           "title": "Food",
           "fields":[
       "food_type",
       "food_category",
-      "wc_name",
             "brand",
             "brand_owner",
-            "price",
       "allergen_category"
           ]
         },
@@ -191,14 +182,12 @@
           "fields":[
       "ingredients.wc_name",
             "ingredients.category",
-            "ingredients.sweetener",
       "ingredients.allergen_category"
           ]
         },
         {
           "title": "Nutrient",
           "fields":[
-      "measurement_tot.panel",
             "measurement_tot.nutrient_category",
             "measurement_tot.nutrient_name",
       "measurement_tot.quantity"
@@ -207,15 +196,7 @@
         {
           "title": "Score",
           "fields":[
-            "scores.nutes",
-      "scores.en_nute_40_score",
-      "scores.immunity_score",
-      "scores.physical_energy_score",
-      "scores.strength_recovery_score",
-      "scores.mental_acuity_score",
-      "scores.survival_score",
-      "scores.eaa9_protein_score",
-      "scores.eaa3_protein_score"
+            "scores.immunity_score"
           ]
         }
       ]
@@ -224,16 +205,10 @@
       "enabled": true,
       "fields": [
     "name",
-          "food_link",
-    "source",
     "ingredient_list",
     "ingredients.name",
-    "ingredient_measurements_panel_unique",
-    "fdc_id",
           "brand",
-          "brand_owner",
-    "allergen_category",
-          "ingredients.fdc_id"
+    "allergen_category"
         ],
       "linkFields": [ "food_link" ]
     },
@@ -265,7 +240,6 @@
     "guppyConfig": {
       "dataType": "food",
       "nodeCountTitle": "Foods",
-      "tierAccessLevel": "regular",
       "accessibleFieldCheckList": ["project_id"],
       "accessibleValidationField": "project_id",
       "fieldMapping": [
@@ -396,7 +370,11 @@
     {
             "field": "ingredients.wc_name",
             "name": "Canon Name"
-          }
+          },
+          {
+      "field": "scores.ultraprocessed_code",
+      "name": "UPF Score"
+    }
         ]
     }
   },
