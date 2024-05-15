@@ -291,6 +291,11 @@ function buildConfig(opts) {
     explorerFilterValuesToHide = config.featureFlags.explorerFilterValuesToHide;
   }
 
+  let forceSingleLoginDropdownOptions = [];
+  if (config.featureFlags && config.featureFlags.forceSingleLoginDropdownOptions) {
+    forceSingleLoginDropdownOptions = config.featureFlags.forceSingleLoginDropdownOptions;
+  }
+
   const enableResourceBrowser = !!config.resourceBrowser;
   let resourceBrowserPublic = false;
   if (config.resourceBrowser && config.resourceBrowser.public) {
@@ -441,23 +446,11 @@ function buildConfig(opts) {
             ],
           };
           break;
-        case 'GWASUIApp':
-          analysisApps.GWASUIApp = {
-            title: 'Gen3 GWAS',
-            description: 'Use this App to perform high throughput GWAS on Million Veteran Program (MVP) data, using the University of Washington Genesis pipeline',
-            image: '/src/img/analysis-icons/gwas.svg',
-          };
-          break;
-        case 'GWASResults':
-          analysisApps.GWASResults = {
-            title: 'GWAS Results',
-            description: 'Use this App to view status & results of submitted workflows',
-            image: '/src/img/analysis-icons/gwasResults.svg',
-          };
-          break;
         default:
           break;
         }
+      } else if (at.appId) {
+        analysisApps[at.appId] = at;
       } else if (at.title) {
         analysisApps[at.title] = at;
       }
@@ -485,6 +478,8 @@ function buildConfig(opts) {
     'https://ctds.uchicago.edu/': 'Center for Translational Data Science at the University of Chicago - information and resources',
 
   };
+
+  const topNavLogin = !components?.login?.hideNavLink;
 
   return {
     app,
@@ -559,6 +554,7 @@ function buildConfig(opts) {
     explorerPublic,
     explorerHideEmptyFilterSection,
     explorerFilterValuesToHide,
+    forceSingleLoginDropdownOptions,
     authzPath,
     authzMappingPath,
     enableResourceBrowser,
@@ -597,6 +593,7 @@ function buildConfig(opts) {
     showSystemUseOnlyOnLogin,
     Error403Url,
     bundle,
+    topNavLogin,
   };
 }
 
