@@ -173,8 +173,9 @@
       "food_type",
       "food_category",
             "brand",
-            "brand_owner",
-      "allergen_category"
+      "allergen_category",
+      "serving_size",
+      "serving_size_unit"
           ]
         },
         {
@@ -196,7 +197,7 @@
         {
           "title": "Score",
           "fields":[
-            "scores.immunity_score"
+            "scores.ultraprocessed_code"
           ]
         }
       ]
@@ -208,7 +209,12 @@
     "ingredient_list",
     "ingredients.name",
           "brand",
-    "allergen_category"
+    "allergen_category",
+          "scores.ultraprocessed_code",
+          "measurement_tot.nutrient_category",
+          "measurement_tot.nutrient_name",
+          "measurement_tot.quantity",
+          "measurement_tot.unit"
         ],
       "linkFields": [ "food_link" ]
     },

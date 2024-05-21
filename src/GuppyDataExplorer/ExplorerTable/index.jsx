@@ -339,6 +339,9 @@ class ExplorerTable extends React.Component {
         }
       }
       return tempColumnConfig;
+    }).filter(function (h) {
+      // THIS has been created just to exclude the columns that are already in the nested table
+      return !h.id.includes("measurement_tot");
     });
 
     // if not ordered sort alphabetically by Header
@@ -381,7 +384,7 @@ class ExplorerTable extends React.Component {
           rowData = []
         }
 
-        const col_luca = [{"Header":"measurement_tot","columns":[{"Header":"Panel","id":"panel", "accessor":"panel", "maxWidth":600,"width":"70vw"},{"Header":"Nutrient Category","id":"nutrient_category", "accessor":"nutrient_category","maxWidth":600,"width":"70vw"},{"Header":"Nutrient Name","id":"nutrient_name", "accessor":"nutrient_name","maxWidth":600,"width":"70vw"},{"Header":"Quantity","id":"quantity", "accessor":"quantity","maxWidth":600,"width":"70vw"},{"Header":"Unit","id":"unit", "accessor":"unit","maxWidth":600,"width":"70vw"},{"Header":"Sample Size","id":"sample_size", "accessor":"sample_size","maxWidth":600,"width":"70vw"}]}]
+        const col_luca = [{"Header":"Nutrient Facts Panel","columns":[{"Header":"Nutrient Category","id":"nutrient_category", "accessor":"nutrient_category","maxWidth":600,"width":"70vw"},{"Header":"Nutrient Name","id":"nutrient_name", "accessor":"nutrient_name","maxWidth":600,"width":"70vw"},{"Header":"Quantity","id":"quantity", "accessor":"quantity","maxWidth":600,"width":"70vw"},{"Header":"Unit","id":"unit", "accessor":"unit","maxWidth":600,"width":"70vw"}]}]
         
         return (
           <div className='explorer-nested-table' key={key}>
